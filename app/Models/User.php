@@ -17,6 +17,16 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    protected $table = 'user';
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
+    protected $primaryKey = 'email';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+
     protected $fillable = [
         'name',
         'email',
@@ -43,14 +53,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
-    }
-    public function groupChats()
-    {
-        return $this->belongsToMany(GroupChat::class);
     }
 }

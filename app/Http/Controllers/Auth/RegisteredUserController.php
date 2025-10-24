@@ -32,30 +32,33 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'email' => 'required|string|email|max:255|unique:user,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $email = $request->email;
         $name = $request->name;
+        $email = strtolower($request->email);
         $password = Hash::make($request->password);
-        $userExists = DB::selectOne('SELECT id FROM users WHERE email = ? LIMIT 1', [$email]);
+
+        $userExists = DB::selectOne('SELECT id FROM user WHERE email = ? LIMIT 1', [$email]);
         if ($userExists) {
             throw ValidationException::withMessages([
                 'email' => 'This email is already registered.',
             ]);
         }
-        DB::insert('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [
+
+        DB::insert('INSERT INTO user (username, email, password) VALUES (?, ?, ?)', [
             $name,
             $email,
             $password,
         ]);
 
         $userId = DB::getPdo()->lastInsertId();
-        $user = DB::selectOne('SELECT * FROM users WHERE id = ? LIMIT 1', [$userId]);
+        $user = DB::selectOne('SELECT * FROM user WHERE id = ? LIMIT 1', [$userId]);
+
         event(new Registered($user));
         Auth::loginUsingId($userId);
 
-        return redirect(route('welcome', false));
+        return redirect(route('welcome'));
     }
 }
