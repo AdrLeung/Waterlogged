@@ -158,10 +158,10 @@ class CreateDatabase extends Command
             CREATE TABLE message(
             ID INTEGER PRIMARY KEY AUTOINCREMENT,
             data TEXT,
-            time_sent TIMESTAMP,
-            group_chat_id INTEGER NOT NULL,
+            timeSent TIMESTAMP,
+            groupChatID INTEGER NOT NULL,
             email VARCHAR(255) NOT NULL,
-            FOREIGN KEY (group_chat_id) REFERENCES groupChat(ID) ON DELETE CASCADE,
+            FOREIGN KEY (groupChatID) REFERENCES groupChat(ID) ON DELETE CASCADE,
             FOREIGN KEY (email) REFERENCES user(email) ON DELETE CASCADE
             );
 
@@ -351,7 +351,7 @@ class CreateDatabase extends Command
                    ('randomUser@gmail.com', 0),
                    ('robertResearch@gmail.com', 2);
 
-            INSERT INTO message (id, data, time_sent, group_chat_id, email)
+            INSERT INTO message (id, data, timeSent, groupChatID, email)
             VALUES
             (0, 'hi nice to meet you', '2025-10-18 14:30:00', 0, 'Simon@gmail.com'),
             (1, 'hi not nice to meet you', '2025-10-18 14:30:01', 0, 'rachelResearch@gmail.com'),
