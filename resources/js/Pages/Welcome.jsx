@@ -23,6 +23,13 @@ export default function Welcome() {
                     >
                         send message
                     </Button>
+                    <Button
+                        onClick={() => {
+                            router.get(route("milestone.index"));
+                        }}
+                    >
+                        go to milestone demonstration page
+                    </Button>
                 </div>
             </div>
         </AppLayout>
