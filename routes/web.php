@@ -19,7 +19,8 @@ Route::get('/join-group-chat/{id}', [GroupChatController::class, "join"])->name(
 Route::post('/send-message', [MessageController::class, "store"])->name("message.send");
 
 Route::get('/milestone', [MilestoneController::class, "index"])->name("milestone.index");
-Route::post('/milestonestore', [MilestoneController::class, "store"])->name("milestone.store");
+Route::post('/milestonestore', [MilestoneController::class, "update"])->name("milestone.update");
+Route::delete('/milestonedelete', [MilestoneController::class, "delete"])->name("milestone.delete");
 
 Route::get('/test', function () {
     return "test";

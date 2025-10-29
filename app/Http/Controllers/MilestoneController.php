@@ -10,17 +10,29 @@ class MilestoneController extends Controller
 {
     public function index()
     {
-        // dd(DB::select('SELECT * from phylum'));
-        return Inertia::render("Milestone", ["phylums" => DB::select('SELECT * from phylum')]);
-        // return DB::select('SELECT * from phylum');
+        return Inertia::render("Milestone", [
+            "projects" => DB::select('SELECT * FROM project')
+        ]);
     }
 
-    public function store(Request $request)
+    public function update(Request $request)
     {
-        $phylum = $request["phylum"];
-        $kingdom = $request["kingdom"];
+        $id = $request["id"];
+        $name = $request["name"];
+        $description = $request["description"];
 
-        DB::update('UPDATE phylum set kingdom = ? where phylum = ?', [$kingdom, $phylum]);
+        DB::update(
+            'UPDATE project SET name = ?, description = ? WHERE projectID = ?',
+            [$name, $description, $id]
+        );
+
+        return redirect()->route("milestone.index");
+    }
+
+    public function delete(Request $request)
+    {
+        $id = $request["id"];
+        DB::delete('DELETE FROM project WHERE projectID = ?', [$id]);
         return redirect()->route("milestone.index");
     }
 }
