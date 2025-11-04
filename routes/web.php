@@ -3,6 +3,7 @@
 use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Middleware\CheckProfessionalMiddleware;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,9 +23,10 @@ Route::get('/milestone', [MilestoneController::class, "index"])->name("milestone
 Route::post('/milestonestore', [MilestoneController::class, "update"])->name("milestone.update");
 Route::delete('/milestonedelete', [MilestoneController::class, "delete"])->name("milestone.delete");
 
+
 Route::get('/test', function () {
     return "test";
-})->name("test");
+})->name("test")->middleware(CheckProfessionalMiddleware::class);
 
 
 
