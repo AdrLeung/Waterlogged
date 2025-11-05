@@ -3,6 +3,7 @@
 use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Middleware\CheckProfessionalMiddleware;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,7 +29,9 @@ Route::get('/test', function () {
     return "test";
 })->name("test")->middleware(CheckProfessionalMiddleware::class);
 
-
+Route::get('/create-project', [ProjectController::class, 'create'])->name("project.create")->middleware(CheckProfessionalMiddleware::class);
+Route::post('/store-project', [ProjectController::class, 'store'])->name("project.store")->middleware(CheckProfessionalMiddleware::class);
+Route::get('/project/{id}', [ProjectController::class, 'show'])->name("project.show");
 
 
 require __DIR__ . '/auth.php';

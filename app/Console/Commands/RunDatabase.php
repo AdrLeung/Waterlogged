@@ -26,6 +26,23 @@ class RunDatabase extends Command
      */
     public function handle()
     {
+        DB::insert("   CREATE TABLE IF NOT EXISTS sessions (
+                id VARCHAR(255) PRIMARY KEY,
+                user_id INTEGER NULL,
+                ip_address VARCHAR(45) NULL,
+                user_agent TEXT NULL,
+                payload TEXT NOT NULL,
+                last_activity INTEGER NOT NULL
+            );");
+
+
+
+
+
+
+
+
+
         DB::statement('PRAGMA foreign_keys = OFF;');
         DB::statement("DROP TABLE IF EXISTS user;");
 
