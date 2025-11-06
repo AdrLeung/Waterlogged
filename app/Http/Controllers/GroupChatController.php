@@ -21,22 +21,22 @@ class GroupChatController extends BaseController
     {
         $email = Auth::user()->email;
         $groupChatsUserIsIn = DB::select(
-            'SELECT name
+            'SELECT DISTINCT name, groupChat.id
              from groupChat
              join groupChat_user on groupChat_user.ID = groupChat.id
              where groupChat_user.email = ? ',
             [$email]
         );
         $groupChatsUserNotIn = DB::select(
-            'SELECT name
+            'SELECT DISTINCT name, groupChat.id
              from groupChat
-             join groupChat_user on groupChat_user.ID = groupChat.id
-             where groupChat_user.email <> ? ',
+             left join groupChat_user on groupChat_user.ID = groupChat.id
+             where groupChat_user.email IS NULL OR groupChat_user.email <> ? ',
             [$email]
         );
 
         // TODO fill in this route
-        return redirect()->route("groupChats.index");
+        return Inertia::render("IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
     }
 
     // you may or made not need this route
@@ -88,5 +88,12 @@ class GroupChatController extends BaseController
             [$groupChatId, $email]
         );
         return redirect()->route('groupChat.show', ['id' => $groupChatId]);
+    }
+
+    public function leave(int $groupChatId)
+    {
+        $email = Auth::user()->email;
+        DB::delete('DELETE FROM  groupChat_user where email = ? and ID = ?', [$email, $groupChatId]);
+        return redirect()->route("groupChat.index");
     }
 }
