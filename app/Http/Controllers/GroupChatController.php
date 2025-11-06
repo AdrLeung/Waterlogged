@@ -35,9 +35,8 @@ class GroupChatController extends BaseController
             [$email]
         );
 
-        dd($groupChatsUserIsIn, $groupChatsUserNotIn);
         // TODO fill in this route
-        return redirect()->route("YOUR ROUTE HERE");
+        return redirect()->route("groupChats.index");
     }
 
     // you may or made not need this route
@@ -61,20 +60,23 @@ class GroupChatController extends BaseController
         $userEmail = Auth::user()->email;
         DB::insert('INSERT INTO groupChat_user (email, ID) values (?, ?)', [$userEmail, $groupChatId]);
 
-        return redirect()->route("welcome");
+        return redirect()->route("groupChat.show", ['id' => $groupChatId]);
     }
 
 
     public function show(string $id)
     {
         $messages = DB::select(
-            'SELECT *
+            'SELECT user.username, message.data
             from message
+            join user on user.email = message.email
             where groupChatId = ?
             order by timeSent ASC',
             [$id]
         );
-        dd($messages);
+
+        $group = DB::select('SELECT * from groupChat where id = ?', [$id]);
+        return Inertia::render("ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages]);
     }
 
     public function join(int $groupChatId)

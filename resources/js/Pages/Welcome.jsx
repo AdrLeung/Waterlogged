@@ -13,22 +13,19 @@ export default function Welcome() {
                     <h1 className="text-2xl font-bold text-gray-800">
                         Welcome, {auth.user?.name || "Guest"}
                     </h1>
-                    <Button
-                        onClick={() => {
-                            router.post(route("message.send"), {
-                                groupId: groupId,
-                                content: "2",
-                            });
-                        }}
-                    >
-                        send message
-                    </Button>
+                    
+
+
                     <Button
                         onClick={() => {
                             router.get(route("milestone.index"));
                         }}
                     >
                         go to milestone demonstration page
+                    </Button>
+
+                    <Button onClick={() => router.get(route("groupChat.create"))}>
+                        Create group chat
                     </Button>
                 </div>
             </div>

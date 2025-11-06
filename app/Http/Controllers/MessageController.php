@@ -25,9 +25,7 @@ class MessageController extends BaseController
         $validated = $request->validate(["groupId" => "required|int", "content" => "required|string"]);
         $userEmail = Auth::user()->email;
         DB::insert('INSERT into message (data, timeSent, groupChatId, email) values (?, ?, ?, ?)', [$validated["content"], now(), $validated["groupId"], $userEmail]);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Message stored successfully'
-        ], 201);
+        // dd("penis");
+        return redirect()->route("groupChat.show", ["id" => $validated["groupId"]]);
     }
 }
