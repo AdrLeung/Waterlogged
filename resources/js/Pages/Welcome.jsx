@@ -8,12 +8,12 @@ export default function Welcome() {
 
     return (
         <AppLayout>
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] bg-gray-50">
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] bg-slate-600">
                 <div className="w-full max-w-md p-8 space-y-6 text-center bg-white shadow-md rounded-2xl">
                     <h1 className="text-2xl font-bold text-gray-800">
                         Welcome, {auth.user?.name || "Guest"}
                     </h1>
-                    
+
 
 
                     <Button
