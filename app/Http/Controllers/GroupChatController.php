@@ -67,13 +67,14 @@ class GroupChatController extends BaseController
     public function show(string $id)
     {
         $messages = DB::select(
-            'SELECT user.username, message.data
+            'SELECT user.email, user.username, message.data, message.timeSent
             from message
             join user on user.email = message.email
             where groupChatId = ?
             order by timeSent ASC',
             [$id]
         );
+
 
         $group = DB::select('SELECT * from groupChat where id = ?', [$id]);
         return Inertia::render("ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages]);
