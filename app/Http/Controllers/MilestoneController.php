@@ -35,4 +35,17 @@ class MilestoneController extends Controller
         DB::delete('DELETE FROM project WHERE projectID = ?', [$id]);
         return redirect()->route("milestone.index");
     }
+
+    public function store(Request $request)
+    {
+        $name = $request["name"];
+        $description = $request["description"];
+
+        DB::insert(
+            'INSERT INTO project (name, description) VALUES (?, ?)',
+            [$name, $description]
+        );
+
+        return redirect()->route("milestone.index");
+    }
 }

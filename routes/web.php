@@ -24,6 +24,7 @@ Route::post('/send-message', [MessageController::class, "store"])->name("message
 Route::get('/milestone', [MilestoneController::class, "index"])->name("milestone.index");
 Route::post('/milestonestore', [MilestoneController::class, "update"])->name("milestone.update");
 Route::delete('/milestonedelete', [MilestoneController::class, "delete"])->name("milestone.delete");
+Route::post('/milestone/store', [MilestoneController::class, 'store'])->name('milestone.store');
 
 
 Route::get('/test', function () {

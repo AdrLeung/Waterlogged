@@ -8,6 +8,8 @@ export default function Milestone({ projects }) {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
+    const [newName, setNewName] = useState("");
+    const [newDescription, setNewDescription] = useState("");
 
     return (
         <AppLayout>
@@ -29,6 +31,7 @@ export default function Milestone({ projects }) {
                     });
                 }}
             >
+                <h2>Update Project</h2>
                 <label>ID</label>
                 <Input
                     onChange={(e) => setId(e.target.value)}
@@ -55,6 +58,31 @@ export default function Milestone({ projects }) {
                 >
                     Delete
                 </Button>
+            </form>
+
+            <br />
+
+            <form
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    router.post(route("milestone.store"), {
+                        name: newName,
+                        description: newDescription,
+                    });
+                }}
+            >
+                <h2>Add New Project</h2>
+                <label>Name</label>
+                <Input
+                    onChange={(e) => setNewName(e.target.value)}
+                    className="w-32 border-black"
+                />
+                <label>Description</label>
+                <Input
+                    onChange={(e) => setNewDescription(e.target.value)}
+                    className="w-32 border-black"
+                />
+                <Button type="submit">Add</Button>
             </form>
         </AppLayout>
     );
