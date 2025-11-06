@@ -1,5 +1,5 @@
 import AppLayout from "@/Layouts/AppLayout";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePage } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import { Input } from "@/components/ui/input"
@@ -13,14 +13,21 @@ import {
     CardTitle,
   } from "@/components/ui/card"
 
-export default function ShowGroupChat({groupInfo, messages}) {
+export default function ShowGroupChat({groupInfo, messages, groupsUserIsIn, usersInGroup}) {
     const { auth } = usePage().props;
-    console.log(auth.user.email);
+    console.log(groupsUserIsIn);
+    console.log(usersInGroup);   
     
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+    }, [messages]);
+
+ 
+   
     groupInfo = groupInfo[0]
-    // console.log(groupInfo);
-    console.log(messages);
-    
+   
     
     const [message, setMessage] = useState("");
         console.log(message);
@@ -65,6 +72,8 @@ export default function ShowGroupChat({groupInfo, messages}) {
                     </div>
                     </form>
             </CardContent>
+            <div ref={messagesEndRef} />
+
         </Card>
     </AppLayout>
 }

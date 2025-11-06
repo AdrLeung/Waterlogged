@@ -66,6 +66,10 @@ class GroupChatController extends BaseController
 
     public function show(string $id)
     {
+        $email = Auth::user()->email;
+
+        $group = DB::select('SELECT * from groupChat where ID = ?', [$id]);
+
         $messages = DB::select(
             'SELECT user.email, user.username, message.data, message.timeSent
             from message
@@ -74,10 +78,19 @@ class GroupChatController extends BaseController
             order by timeSent ASC',
             [$id]
         );
-
-
-        $group = DB::select('SELECT * from groupChat where id = ?', [$id]);
-        return Inertia::render("ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages]);
+        
+        $groupChatsUserIsIn = DB::select(
+            'SELECT DISTINCT groupChat.name, groupChat.id
+             from groupChat
+             join groupChat_user as gcu on gcu.ID = groupChat.id
+             where gcu.email = ? and gcu.id <> ? ',
+            [$email, $id ]
+        );
+        $usersInGroup = DB::select('SELECT DISTINCT user.username 
+                                    from user 
+                                    join groupChat_user as gcu on user.email = gcu.email
+                                    where user.email <> ?', [$email]); 
+        return Inertia::render("ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages, 'groupsUserIsIn' => $groupChatsUserIsIn, 'usersInGroup' => $usersInGroup]);
     }
 
     public function join(int $groupChatId)
