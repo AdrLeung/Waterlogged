@@ -46,7 +46,7 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
                 <div key={index}>
                     <p>{group.name}</p>
                     <Button
-                        className="bg-green-800"
+                        className="overflow-visible bg-green-800"
                         onClick={() => handleJoin(group.ID)}
                     >
                         join group
