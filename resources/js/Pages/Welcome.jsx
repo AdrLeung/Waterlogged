@@ -3,7 +3,6 @@ import AppLayout from "@/Layouts/AppLayout";
 import { Head, router, usePage } from "@inertiajs/react";
 
 export default function Welcome() {
-    const groupId = 5;
     const { auth } = usePage().props;
 
     return (
@@ -13,8 +12,6 @@ export default function Welcome() {
                     <h1 className="text-2xl font-bold text-gray-800">
                         Welcome, {auth.user?.name || "Guest"}
                     </h1>
-                    
-
 
                     <Button
                         onClick={() => {
@@ -24,8 +21,15 @@ export default function Welcome() {
                         go to milestone demonstration page
                     </Button>
 
-                    <Button onClick={() => router.get(route("groupChat.create"))}>
+                    <Button
+                        onClick={() => router.get(route("groupChat.create"))}
+                    >
                         Create group chat
+                    </Button>
+                    <Button
+                        onClick={() => router.get(route("groupChat.index"))}
+                    >
+                        list group chats
                     </Button>
                 </div>
             </div>

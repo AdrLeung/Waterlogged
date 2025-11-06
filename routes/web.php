@@ -16,7 +16,8 @@ Route::get('/create-group-chat', [GroupChatController::class, "create"])->name("
 Route::post('/store-group-chat', [GroupChatController::class, "store"])->name("groupChat.store");
 Route::get('/group-chats', [GroupChatController::class, "index"])->name("groupChat.index");
 Route::get('/group-chat/{id}', [GroupChatController::class, "show"])->name("groupChat.show");
-Route::get('/join-group-chat/{id}', [GroupChatController::class, "join"])->name("groupChat.join");
+Route::post('/join-group-chat/{id}', [GroupChatController::class, "join"])->name("groupChat.join");
+Route::post('/leave-group-chat/{id}', [GroupChatController::class, "leave"])->name("groupChat.leave");
 
 Route::post('/send-message', [MessageController::class, "store"])->name("message.store");
 
