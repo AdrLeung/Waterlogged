@@ -31,6 +31,11 @@ export default function Welcome() {
                     >
                         list group chats
                     </Button>
+                    <Button
+                        onClick={() => router.get(route("observation.create"))}
+                    >
+                        create Observation
+                    </Button>
                 </div>
             </div>
         </AppLayout>

@@ -35,14 +35,13 @@ class GroupChatController extends BaseController
             [$email]
         );
 
-        // TODO fill in this route
-        return Inertia::render("IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
+        return Inertia::render("GroupChat/IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
     }
 
     // you may or made not need this route
     public function create()
     {
-        return Inertia::render("CreateGroupChat");
+        return Inertia::render("GroupChat/CreateGroupChat");
     }
 
     // hit this route by doing something like the below code
@@ -78,19 +77,19 @@ class GroupChatController extends BaseController
             order by timeSent ASC',
             [$id]
         );
-        
+
         $groupChatsUserIsIn = DB::select(
             'SELECT DISTINCT groupChat.name, groupChat.id
              from groupChat
              join groupChat_user as gcu on gcu.ID = groupChat.id
              where gcu.email = ? and gcu.id <> ? ',
-            [$email, $id ]
+            [$email, $id]
         );
-        $usersInGroup = DB::select('SELECT DISTINCT user.username 
-                                    from user 
+        $usersInGroup = DB::select('SELECT DISTINCT user.username
+                                    from user
                                     join groupChat_user as gcu on user.email = gcu.email
-                                    where user.email <> ?', [$email]); 
-        return Inertia::render("ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages, 'groupsUserIsIn' => $groupChatsUserIsIn, 'usersInGroup' => $usersInGroup]);
+                                    where user.email <> ?', [$email]);
+        return Inertia::render("GroupChat/ShowGroupChat", ['groupInfo' => $group, 'messages' => $messages, 'groupsUserIsIn' => $groupChatsUserIsIn, 'usersInGroup' => $usersInGroup]);
     }
 
     public function join(int $groupChatId)

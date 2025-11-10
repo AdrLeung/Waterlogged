@@ -244,7 +244,7 @@ class CreateDatabase extends Command
                    ('Orcinus orca', 'Orca', 'still mad I can’t hunt these', 'Orcinus'),
                    ('Enteroctopus dofleini', 'Giant Pacific Octopus', 'Red, 2m in diameter, depth of 30m, hiding in rocks', 'Enteroctopus');
 
-            INSERT INTO location (meanLongitude, meanLatitude, name)
+            INSERT INTO location (meanLatitude, meanLongitude, name)
             VALUES ('49.245173', '-125.257978', 'Vancouver Island'),
                    ('49.267324', '-123.263471', 'Wreck Beach'),
                    ('49.330532', '-124.290541', 'EnglishMan River Estuary'),
