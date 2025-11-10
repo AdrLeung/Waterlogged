@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -13,7 +14,18 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $isProfessional = Auth::user()?->email ? true : false;
+        $projects = DB::select(
+            'SELECT p.*, count(po.observationID) as observationCount
+            from project p
+            left join project_observation po on p.projectID = po.projectID
+            group by p.projectID
+            '
+        );
+        return Inertia::render("Project/IndexProjects", [
+            'isProfessional' => $isProfessional,
+            'projects' => $projects
+        ]);
     }
 
     /**
@@ -21,7 +33,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return Inertia::render("CreateProject");
+        return Inertia::render("Project/CreateProject");
     }
 
     /**
@@ -56,7 +68,7 @@ class ProjectController extends Controller
             [$projectID]
         );
 
-        return Inertia::render("ShowProject", [
+        return Inertia::render("Project/ShowProject", [
             'name' => $project->name,
             'description' => $project->description,
             'observations' => $observations

@@ -23,13 +23,14 @@ Route::post('/leave-group-chat/{id}', [GroupChatController::class, "leave"])->na
 
 Route::post('/send-message', [MessageController::class, "store"])->name("message.store");
 
-Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create");
-Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store");
+Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create")->middleware('auth');
+Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store")->middleware('auth');
 
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
 
 Route::get('/create-project', [ProjectController::class, 'create'])->name("project.create")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/store-project', [ProjectController::class, 'store'])->name("project.store")->middleware(CheckProfessionalMiddleware::class);
+Route::get('/store-project', [ProjectController::class, 'index'])->name("project.index");
 Route::get('/project/{id}', [ProjectController::class, 'show'])->name("project.show");
 
 

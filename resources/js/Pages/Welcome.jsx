@@ -31,10 +31,9 @@ export default function Welcome() {
                     >
                         list group chats
                     </Button>
-                    <Button
-                        onClick={() => router.get(route("observation.create"))}
-                    >
-                        create Observation
+
+                    <Button onClick={() => router.get(route("project.index"))}>
+                        index projects
                     </Button>
                 </div>
             </div>
