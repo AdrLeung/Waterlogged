@@ -7,12 +7,6 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
     const [groupsIn, setGroupsIn] = useState(groupsUserIsIn);
     const [groupsNotIn, setGroupsNotIn] = useState(groupsUserIsNotIn);
     const handleJoin = (groupID) => {
-        const group = groupsNotIn.find((g) => g.ID === groupID);
-        if (!group) return;
-
-        setGroupsNotIn((prev) => prev.filter((g) => g.ID !== groupID));
-        setGroupsIn((prev) => [...prev, group]);
-
         router.post(route("groupChat.join", parseInt(groupID)));
     };
 

@@ -28,12 +28,23 @@ class GroupChatController extends BaseController
             [$email]
         );
         $groupChatsUserNotIn = DB::select(
-            'SELECT DISTINCT name, groupChat.id
-             from groupChat
-             left join groupChat_user on groupChat_user.ID = groupChat.id
-             where groupChat_user.email IS NULL OR groupChat_user.email <> ? ',
+            'SELECT *
+            from groupchat
+            where id not in (
+                select ID
+                from groupChat_user
+                where email = ?
+            )
+            ',
             [$email]
         );
+        // $groupChatsUserNotIn = DB::select(
+        //     'SELECT DISTINCT name, groupChat.id
+        //      from groupChat
+        //      left join groupChat_user on groupChat_user.ID = groupChat.id
+        //      where groupChat_user.email IS NULL OR groupChat_user.email <> ? ',
+        //     [$email]
+        // );
 
         return Inertia::render("GroupChat/IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
     }
@@ -79,11 +90,12 @@ class GroupChatController extends BaseController
         );
 
         $groupChatsUserIsIn = DB::select(
-            'SELECT DISTINCT groupChat.name, groupChat.id
-             from groupChat
-             join groupChat_user as gcu on gcu.ID = groupChat.id
-             where gcu.email = ? and gcu.id <> ? ',
-            [$email, $id]
+            'SELECT user.email, user.username, message.data, message.timeSent
+            from message
+            join user on user.email = message.email
+            where groupChatId = ?
+            order by timeSent ASC',
+            [$id]
         );
         $usersInGroup = DB::select('SELECT DISTINCT user.username
                                     from user
