@@ -1,3 +1,4 @@
+// Your ShowGroupChat component
 import AppLayout from "@/Layouts/AppLayout";
 import { useState, useRef, useEffect } from "react";
 import { usePage } from "@inertiajs/react";
@@ -6,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
+import { useToast } from "@/Contexts/ToastContext";
 
 export default function ShowGroupChat({
     groupInfo,
@@ -14,7 +16,7 @@ export default function ShowGroupChat({
     usersInGroup,
 }) {
     const { auth } = usePage().props;
-
+    const { addToast } = useToast();
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -27,9 +29,16 @@ export default function ShowGroupChat({
     const [messagesState, setMessagesState] = useState(messages);
 
     const deleteMessage = (messageId) => {
+        // Store the message for potential undo
+        const deletedMessage = messagesState.find(
+            (msg) => msg.ID === messageId
+        );
+
         setMessagesState((prevMessages) =>
             prevMessages.filter((msg) => msg.ID !== messageId)
         );
+
+        addToast("i peed myself", "success");
 
         router.post(route("message.delete", messageId));
     };
