@@ -28,4 +28,11 @@ class MessageController extends BaseController
         // dd("penis");
         return redirect()->route("groupChat.show", ["id" => $validated["groupId"]]);
     }
+
+
+    public function delete(int $messageID)
+    {
+
+        DB::delete('DELETE FROM message where ID = ?', [$messageID]);
+    }
 }

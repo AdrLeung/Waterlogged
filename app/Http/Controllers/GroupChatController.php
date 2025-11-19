@@ -38,13 +38,6 @@ class GroupChatController extends BaseController
             ',
             [$email]
         );
-        // $groupChatsUserNotIn = DB::select(
-        //     'SELECT DISTINCT name, groupChat.id
-        //      from groupChat
-        //      left join groupChat_user on groupChat_user.ID = groupChat.id
-        //      where groupChat_user.email IS NULL OR groupChat_user.email <> ? ',
-        //     [$email]
-        // );
 
         return Inertia::render("GroupChat/IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
     }
@@ -55,11 +48,6 @@ class GroupChatController extends BaseController
         return Inertia::render("GroupChat/CreateGroupChat");
     }
 
-    // hit this route by doing something like the below code
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     router.post(route("groupChat.store"), { groupChatName: groupName });
-    // };
 
     public function store(Request $request)
     {
@@ -81,7 +69,7 @@ class GroupChatController extends BaseController
         $group = DB::select('SELECT * from groupChat where ID = ?', [$id]);
 
         $messages = DB::select(
-            'SELECT user.email, user.username, message.data, message.timeSent
+            'SELECT user.email, user.username, message.data, message.timeSent, message.id
             from message
             join user on user.email = message.email
             where groupChatId = ?

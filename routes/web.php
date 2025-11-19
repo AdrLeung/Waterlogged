@@ -22,6 +22,7 @@ Route::post('/join-group-chat/{id}', [GroupChatController::class, "join"])->name
 Route::post('/leave-group-chat/{id}', [GroupChatController::class, "leave"])->name("groupChat.leave");
 
 Route::post('/send-message', [MessageController::class, "store"])->name("message.store");
+Route::post('/delete-message/{id}', [MessageController::class, "delete"])->name("message.delete");
 
 Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create")->middleware('auth');
 Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store")->middleware('auth');

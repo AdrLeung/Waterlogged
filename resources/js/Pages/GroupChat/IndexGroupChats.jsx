@@ -19,6 +19,10 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
 
         router.post(route("groupChat.leave", parseInt(groupID)));
     };
+
+    const handleView = (groupID) => {
+        router.get(route("groupChat.show", groupID));
+    };
     return (
         <AppLayout>
             <h1>groups in</h1>
@@ -30,6 +34,9 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
                         className="bg-red-800"
                     >
                         leave group
+                    </Button>
+                    <Button onClick={() => handleView(group.ID)}>
+                        View Group
                     </Button>
                 </div>
             ))}
