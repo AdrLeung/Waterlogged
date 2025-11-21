@@ -1,3 +1,4 @@
+import { CreateGroupChatDialog } from "@/Components/CreateGroupChatDialog";
 import { Button } from "@/Components/ui/button";
 import AppLayout from "@/Layouts/AppLayout";
 import { router } from "@inertiajs/react";
@@ -25,6 +26,7 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
     };
     return (
         <AppLayout>
+            <CreateGroupChatDialog />
             <h1>groups in</h1>
             {groupsIn.map((group, index) => (
                 <div key={index}>

@@ -14,11 +14,6 @@ export default function Welcome() {
                     </h1>
 
                     <Button
-                        onClick={() => router.get(route("groupChat.create"))}
-                    >
-                        Create group chat
-                    </Button>
-                    <Button
                         onClick={() => router.get(route("groupChat.index"))}
                     >
                         list group chats

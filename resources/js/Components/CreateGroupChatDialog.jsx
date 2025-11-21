@@ -11,47 +11,39 @@ import {
 } from "@/components/ui/dialog";
 import { router } from "@inertiajs/react";
 
-export function CreateProjectDialog() {
+export function CreateGroupChatDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    const [desc, setDesc] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = () => {
-        router.post(route("project.store", { name: name, desc: desc }));
+        router.post(route("groupChat.store", { groupChatName: name }));
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Create Project</Button>
+                <Button>Create Group Chat</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create New Project</DialogTitle>
+                    <DialogTitle>Create New Group</DialogTitle>
                     <DialogDescription>
-                        Add a new project to get started.
+                        Enter the name of your group to get started!
                     </DialogDescription>
                 </DialogHeader>
                 <div>
                     <div>
-                        <label htmlFor="name">Project Name</label>
+                        <label htmlFor="name">Group Name</label>
                         <Input
                             id="name"
-                            placeholder="Enter project name"
+                            placeholder="Enter group name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <label htmlFor="desc">Description</label>
-                        <Input
-                            id="desc"
-                            placeholder="Enter project description"
-                            value={desc}
-                            onChange={(e) => setDesc(e.target.value)}
-                        />
-                    </div>
-                    <div>
+
+                    <div className="pt-2">
                         <Button
                             variant="outline"
                             onClick={() => setOpen(false)}

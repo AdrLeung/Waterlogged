@@ -48,6 +48,7 @@ Route::delete('/demote-professional/{email}', [ProfessionalController::class, "d
 Route::post('/update-credentials', [ProfessionalController::class, "update"])->name("professional.update");
 
 
+
 Route::get('/test', function () {
     return "test";
 })->name("test")->middleware(CheckProfessionalMiddleware::class);
