@@ -4,6 +4,7 @@ use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ObservationController;
+use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpeciesController;
 use App\Http\Middleware\CheckProfessionalMiddleware;
@@ -39,6 +40,12 @@ Route::get('/milestone', [MilestoneController::class, "index"])->name("milestone
 Route::post('/milestonestore', [MilestoneController::class, "update"])->name("milestone.update");
 Route::delete('/milestonedelete', [MilestoneController::class, "delete"])->name("milestone.delete");
 Route::post('/milestone/store', [MilestoneController::class, 'store'])->name('milestone.store');
+
+
+Route::get('/users', [ProfessionalController::class, "index"])->name("users.index")->middleware(CheckProfessionalMiddleware::class);
+Route::post('/promote-user/{email}', [ProfessionalController::class, "promote"])->name("users.promote")->middleware(CheckProfessionalMiddleware::class);
+Route::delete('/demote-professional/{email}', [ProfessionalController::class, "demote"])->name("professional.demote")->middleware(CheckProfessionalMiddleware::class);
+Route::post('/update-credentials', [ProfessionalController::class, "update"])->name("professional.update");
 
 
 Route::get('/test', function () {

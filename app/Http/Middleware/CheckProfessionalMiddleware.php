@@ -22,7 +22,7 @@ class CheckProfessionalMiddleware
         }
         $email = Auth::user()->email;
         if (!DB::select('SELECT 1 from professional where email = ?', [$email])) {
-            abort(403, "you are not aa pro");
+            return redirect()->route("welcome");
         }
         // dd($email);
         return $next($request);
