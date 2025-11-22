@@ -37,7 +37,7 @@ Route::post('/create-species', [SpeciesController::class, "store"])->name("speci
 
 Route::get('/create-project', [ProjectController::class, 'create'])->name("project.create")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/store-project', [ProjectController::class, 'store'])->name("project.store")->middleware(CheckProfessionalMiddleware::class);
-Route::get('/store-project', [ProjectController::class, 'index'])->name("project.index");
+Route::get('/projects', [ProjectController::class, 'index'])->name("project.index");
 Route::get('/project/{id}', [ProjectController::class, 'show'])->name("project.show");
 Route::get('/hidden-gems', [ProfessionalController::class, 'indexGems'])->name("projects.gems");
 

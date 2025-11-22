@@ -87,6 +87,23 @@ class ProfessionalController extends Controller
             ',
         );
 
-        return Inertia::render("Project/HiddenGemProjects", ["projects" => $projects]);
+        $superUsers = DB::select(
+            'SELECT *
+            from user u
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM project p
+                WHERE p.projectID NOT IN (
+                    SELECT po.projectID
+                    FROM project_observation po
+                    JOIN observation o ON o.observationID = po.observationID
+                    WHERE o.email = u.email
+                )
+            ) '
+        );
+
+
+
+        return Inertia::render("Project/HiddenGemProjects", ["projects" => $projects, "superUsers" => $superUsers]);
     }
 }
