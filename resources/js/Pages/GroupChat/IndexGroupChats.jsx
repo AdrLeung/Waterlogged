@@ -43,8 +43,13 @@ export default function IndexGroupChats({
     };
     return (
         <AppLayout>
+            <div className="flex items-start justify-center min-h-screen p-6 bg-slate-600">
+                <div className="w-full max-w-2xl space-y-10">
+
             <CreateGroupChatDialog />
-            <h1>groups in</h1>
+
+            <div className="gap-4 p-8 bg-white border rounded-lg ">
+            <h1 className="text-2xl font-semibold">Your Groups</h1>
             {groupsIn.map((group, index) => (
                 <div key={index}>
                     <p>{group.name}</p>
@@ -64,8 +69,10 @@ export default function IndexGroupChats({
                     )}
                 </div>
             ))}
+            </div>
 
-            <h1>groups not it </h1>
+            <div className="gap-4 p-8 bg-white border rounded-lg">
+            <h1 className="text-2xl font-semibold"> Not your Groups </h1>
 
             {groupsNotIn.map((group, index) => (
                 <div key={index}>
@@ -78,6 +85,9 @@ export default function IndexGroupChats({
                     </Button>
                 </div>
             ))}
+            </div>
+            </div>
+            </div>
         </AppLayout>
     );
 }
