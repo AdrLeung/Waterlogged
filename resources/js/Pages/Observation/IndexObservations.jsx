@@ -224,7 +224,7 @@ export default function IndexObservations({ results, species }) {
                     <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg">
                         <form onSubmit={handleProjectionSubmit}>
                             <h2 className="pb-3 text-2xl font-bold">
-                                Observations
+                                Observations:
                             </h2>
 
                             <div className="p-3 space-y-3 border rounded-lg">
@@ -273,9 +273,10 @@ export default function IndexObservations({ results, species }) {
                         </form>
 
                         {results.map((observation) => (
-                            <div key={observation.observationID}>
-                                <p>{observation.scientificName}</p>
-                                <p>{observation.quantity}</p>
+                            <div key={observation.observationID}
+                            className="flex items-center justify-between p-3 space-y-1 border rounded-lg">
+                                <p><span className="font-bold">Name:</span> {observation.scientificName}</p>
+                                <p><span className="font-bold">Quantity:</span> {observation.quantity}</p>
                                 <Button
                                     onClick={() =>
                                         router.get(
