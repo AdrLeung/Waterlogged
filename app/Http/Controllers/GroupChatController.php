@@ -25,7 +25,7 @@ class GroupChatController extends BaseController
             'SELECT DISTINCT name, groupChat.id
              from groupChat
              join groupChat_user on groupChat_user.ID = groupChat.id
-             where groupChat_user.email = ? ',
+             where groupChat_user.email = ?',
             [$email]
         );
         $groupChatsUserNotIn = DB::select(

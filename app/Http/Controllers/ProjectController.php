@@ -15,13 +15,49 @@ class ProjectController extends Controller
     public function index()
     {
         $isProfessional = Auth::user()?->email ? true : false;
-        $projects = DB::select(
-            'SELECT p.*, count(po.observationID) as observationCount
-            from project p
-            left join project_observation po on p.projectID = po.projectID
-            group by p.projectID
-            '
+        $projectObservations = DB::select(
+            'SELECT p.projectID, p.name AS projectName, o.observationID, o.notes
+            FROM project p
+            LEFT JOIN project_observation po ON p.projectID = po.projectID
+            LEFT JOIN observation o ON o.observationID = po.observationID
+        '
         );
+
+        $projectObservationCount = DB::select(
+            'SELECT p.projectID, COUNT(*) as observationCount
+            FROM project p
+            LEFT JOIN project_observation po ON p.projectID = po.projectID
+            LEFT JOIN observation o ON o.observationID = po.observationID
+            GROUP BY p.projectID
+        '
+        );
+        $projects = [];
+
+        foreach ($projectObservations as $projectObservation) {
+            $projectID = $projectObservation->projectID;
+
+            if (!isset($projects[$projectID])) {
+                $projects[$projectID] = [
+                    'projectID' => $projectID,
+                    'projectName' => $projectObservation->projectName,
+                    'observations' => []
+                ];
+            }
+
+            if ($projectObservation->observationID) {
+                $projects[$projectID]['observations'][] = [
+                    'observationID' => $projectObservation->observationID,
+                    'notes' => $projectObservation->notes
+                ];
+            }
+        }
+
+        foreach ($projectObservationCount as $idCount) {
+            $projects[$idCount->projectID]["observationCount"] =
+                $idCount->observationCount;
+        }
+
+        dd($projects);
         return Inertia::render("Project/IndexProjects", [
             'isProfessional' => $isProfessional,
             'projects' => $projects
@@ -43,7 +79,7 @@ class ProjectController extends Controller
     {
         $name = $request->input("name");
         $description = $request->input("desc");
-        DB::insert('INSERT into project (name, description) values (?, ?)', [$name, $description]);
+        DB::insert('INSERT INTO project (name, description) VALUES (?, ?)', [$name, $description]);
         $projectID = DB::getPdo()->lastInsertId();
 
         return redirect()->route("project.show", $projectID);
@@ -73,30 +109,5 @@ class ProjectController extends Controller
             'description' => $project->description,
             'observations' => $observations
         ]);
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -15,7 +15,7 @@ const Navbar = () => {
                     href="/"
                     className="flex items-center gap-2 text-xl font-bold text-primary sm:text-2xl"
                 >
-                    <span className="xs:hidden">Sample Project</span>
+                    <span className="xs:hidden">Water Logged</span>
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">
                     <AuthButton />

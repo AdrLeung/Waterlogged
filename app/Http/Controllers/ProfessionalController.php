@@ -64,4 +64,29 @@ class ProfessionalController extends Controller
         DB::insert('INSERT into professional (email) values (?)', [Auth::user()->email]);
         return redirect()->route("welcome");
     }
+
+
+    public function indexGems()
+    {
+        $projects = DB::select(
+            'SELECT p.projectID, p.name, p.description, COUNT(po.observationID) as obs_amount
+            FROM project p
+            LEFT JOIN project_observation po ON p.projectID = po.projectID
+            GROUP BY p.projectID
+            HAVING COUNT(po.observationID) <
+            (
+                SELECT AVG(obs_count)
+                FROM
+                    (
+                        SELECT p.projectID, COUNT(po.observationID) AS obs_count
+                        FROM project p
+                        LEFT JOIN project_observation po ON p.projectID = po.projectID
+                        GROUP BY p.projectID
+                    ) AS x
+            );
+            ',
+        );
+
+        return Inertia::render("Project/HiddenGemProjects", ["projects" => $projects]);
+    }
 }

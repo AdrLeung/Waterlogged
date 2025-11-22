@@ -34,6 +34,9 @@ export default function Welcome() {
                     <Button onClick={() => router.get(route("users.super"))}>
                         View Super Users
                     </Button>
+                    <Button onClick={() => router.get(route("projects.gems"))}>
+                        Hidden Gems
+                    </Button>
                 </div>
             </div>
         </AppLayout>
