@@ -27,64 +27,89 @@ export default function IndexProjects({ isProfessional, projects }) {
 
     return (
         <AppLayout>
-            <div className="ml-4">
-                {isProfessional && <CreateProjectDialog />}
-                {auth.user && (
-                    <Button
-                        className="mt-4 mb-4 ml-4"
-                        onClick={() => router.get(route("observation.create"))}
-                    >
-                        Create Observation
-                    </Button>
-                )}
+            <div className="">
+                <div className="z-0 ml-4">
+                    {isProfessional && <CreateProjectDialog />}
+                    {auth.user && (
+                        <Button
+                            className="mt-4 mb-4 ml-4"
+                            onClick={() =>
+                                router.get(route("observation.create"))
+                            }
+                        >
+                            Create Observation
+                        </Button>
+                    )}
+                </div>
+                {Object.values(projects).map((project) => {
+                    console.log(project);
+                    return (
+                        <Card className="w-1/3 mb-4 ml-4">
+                            <CardTitle className="pt-4 pl-4">
+                                <p>{project.projectName}</p>
+                            </CardTitle>
+                            <CardHeader>
+                                <p>{project.description}</p>
+                            </CardHeader>
+                            <CardDescription className="pl-4">
+                                <p>{project.observationCount} observations</p>
+                            </CardDescription>
+                            <CardContent>
+                                <div className>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button variant="outline">
+                                                View
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    <p>{project.name}</p>
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    <p>{project.description}</p>
+                                                    {project.observations.map(
+                                                        (
+                                                            observation,
+                                                            index
+                                                        ) => {
+                                                            return (
+                                                                <p>
+                                                                    {index + 1}.{" "}
+                                                                    {
+                                                                        observation.notes
+                                                                    }
+                                                                </p>
+                                                            );
+                                                        }
+                                                    )}
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>
+                                                    Exit
+                                                </AlertDialogCancel>
+                                                <AlertDialogAction
+                                                    onClick={() =>
+                                                        router.get(
+                                                            route(
+                                                                "observation.create"
+                                                            )
+                                                        )
+                                                    }
+                                                >
+                                                    Contribute
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    );
+                })}
             </div>
-            {Object.values(projects).map((project) => {
-                console.log(project);
-
-                return (
-                    <Card className="w-1/3 mb-4 ml-4">
-                        <CardTitle className="pt-4 pl-4">
-                            <p>{project.projectName}</p>
-                        </CardTitle>
-                        <CardHeader>
-                            <p>{project.description}</p>
-                        </CardHeader>
-                        <CardDescription className="pl-4">
-                            <p>{project.observationCount} observations</p>
-                        </CardDescription>
-                        <CardContent>
-                            <div className>
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                        <Button variant="outline">View</Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>
-                                                <p>{project.name}</p>
-                                            </AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                                <p>{project.description}</p>
-                                                <p>
-                                                    {project.observationCount}
-                                                </p>
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>
-                                                Exit
-                                            </AlertDialogCancel>
-                                            <AlertDialogAction>
-                                                Contribute
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </div>
-                        </CardContent>
-                    </Card>
-                );
-            })}
         </AppLayout>
     );
 }

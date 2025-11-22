@@ -16,7 +16,7 @@ class ProjectController extends Controller
     {
         $isProfessional = Auth::user()?->email ? true : false;
         $projectObservations = DB::select(
-            'SELECT p.projectID, p.name AS projectName, o.observationID, o.notes
+            'SELECT p.projectID, p.name AS projectName, p.description, o.observationID, o.notes
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
@@ -40,6 +40,7 @@ class ProjectController extends Controller
                 $projects[$projectID] = [
                     'projectID' => $projectID,
                     'projectName' => $projectObservation->projectName,
+                    'description' => $projectObservation->description,
                     'observations' => []
                 ];
             }
