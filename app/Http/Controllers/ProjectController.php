@@ -63,7 +63,6 @@ class ProjectController extends Controller
             'projects' => $projects
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
