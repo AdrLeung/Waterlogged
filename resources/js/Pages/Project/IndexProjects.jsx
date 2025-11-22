@@ -28,7 +28,7 @@ export default function IndexProjects({ isProfessional, projects }) {
 
     return (
         <AppLayout>
-            <div className="ml-4">
+            <div className="z-0 ml-4">
                 {isProfessional && <CreateProjectDialog />}
                 {auth.user && (
                     <Button
@@ -39,10 +39,11 @@ export default function IndexProjects({ isProfessional, projects }) {
                     </Button>
                 )}
             </div>
-            {Object.values(projects).map((project) => (
-                <Card className="w-1/3 mb-4 ml-4">
+            {Object.values(projects).map((project) => {
+                console.log(project);
+                return (<Card className="w-1/3 mb-4 ml-4">
                     <CardTitle className="pt-4 pl-4">
-                        <p>{project.name}</p>
+                        <p>{project.projectName}</p>
                     </CardTitle>
                     <CardHeader>
                         <p>{project.description}</p>
@@ -63,14 +64,16 @@ export default function IndexProjects({ isProfessional, projects }) {
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
                                             <p>{project.description}</p>
-                                            <p>{project.observationCount}</p>
+                                            {project.observations.map((observation, index) => {
+                                                return <p>{index + 1}. {observation.notes}</p>
+                                            })}
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>
                                             Exit
                                         </AlertDialogCancel>
-                                        <AlertDialogAction>
+                                        <AlertDialogAction onClick={() => router.get(route("observation.create"))}>
                                             Contribute
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
@@ -78,8 +81,8 @@ export default function IndexProjects({ isProfessional, projects }) {
                             </AlertDialog>
                         </div>
                     </CardContent>
-                </Card>
-            ))}
+                </Card>)
+            })}
         </AppLayout>
     );
 }
