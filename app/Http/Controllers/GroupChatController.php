@@ -43,7 +43,7 @@ class GroupChatController extends BaseController
         return Inertia::render("GroupChat/IndexGroupChats", [
             'groupsUserIsIn' => $groupChatsUserIsIn,
             'groupsUserIsNotIn' => $groupChatsUserNotIn,
-            'isProfessional' => UserService::isProfessional($email)
+            'isProfessional' => UserService::isProfessional()
         ]);
     }
 

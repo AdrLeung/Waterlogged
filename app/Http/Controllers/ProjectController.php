@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $isProfessional = Auth::user()?->email ? true : false;
+        $isProfessional = UserService::isProfessional();
         $projectObservations = DB::select(
             'SELECT p.projectID, p.name AS projectName, p.description, o.observationID, o.notes
             FROM project p

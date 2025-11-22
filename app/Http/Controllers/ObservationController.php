@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +101,6 @@ class ObservationController extends Controller
         $output = $observation[0];
         $output->media = $media;
 
-        return Inertia::render("Observation/ShowObservation", ["observation" => $output]);
+        return Inertia::render("Observation/ShowObservation", ["observation" => $output, "isProfessional" => UserService::isProfessional()]);
     }
 }

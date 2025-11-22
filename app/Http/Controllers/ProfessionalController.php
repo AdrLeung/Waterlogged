@@ -31,8 +31,15 @@ class ProfessionalController extends Controller
                 SELECT email
                 from professional p)'
         );
+        // dd($professionals);
 
-        $usersProfessionalInfo = DB::select('SELECT * from professional where email = ?', [$email]);
+        $usersProfessionalInfo = DB::select(
+            'SELECT *
+            from professional p
+            JOIN user u ON u.email = p.email
+            where p.email = ?',
+            [$email]
+        );
 
         return Inertia::render("Professional/IndexUsers", [
             "professionals" => $professionals,
