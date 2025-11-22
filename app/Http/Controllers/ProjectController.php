@@ -57,7 +57,6 @@ class ProjectController extends Controller
                 $idCount->observationCount;
         }
 
-        dd($projects);
         return Inertia::render("Project/IndexProjects", [
             'isProfessional' => $isProfessional,
             'projects' => $projects
