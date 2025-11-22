@@ -83,7 +83,7 @@ export default function IndexObservations({ results, species }) {
                                     </button>
 
                                     {speciesSearchOpen && (
-                                        <div className="absolute z-10 w-full mt-1 overflow-auto bg-white border-2 rounded max-h-64">
+                                        <div className="absolute z-10 mt-1 overflow-auto bg-white border-2 rounded w-fit max-h-64">
                                             <Input
                                                 placeholder="Search species..."
                                                 value={speciesSearch}
