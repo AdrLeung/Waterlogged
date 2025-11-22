@@ -51,7 +51,7 @@ export default function IndexObservations({ results, species }) {
                                 Selection Filters:
                             </h2>
 
-                            <div>
+                            <div className="pb-3">
                                 <label>Species involved:</label>
                                 <div>
                                     <button
@@ -83,7 +83,7 @@ export default function IndexObservations({ results, species }) {
                                     </button>
 
                                     {speciesSearchOpen && (
-                                        <div className="absolute z-10 w-full mt-1 overflow-auto bg-white border-2 rounded max-h-64">
+                                        <div className="absolute z-10 mt-1 overflow-auto bg-white border-2 rounded w-fit max-h-64">
                                             <Input
                                                 placeholder="Search species..."
                                                 value={speciesSearch}
@@ -139,7 +139,7 @@ export default function IndexObservations({ results, species }) {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="pb-3">
                                 <label>Upper bound for quantity</label>
                                 <Input
                                     type="number"
@@ -150,7 +150,7 @@ export default function IndexObservations({ results, species }) {
                                     }
                                 />
                             </div>
-                            <div>
+                            <div className="pb-3">
                                 <label>Lower Bound for Quantity</label>
                                 <Input
                                     type="number"
@@ -164,7 +164,7 @@ export default function IndexObservations({ results, species }) {
 
                             <div>
                                 <label>Made by professional:</label>
-                                <div>
+                                <div className="pb-5 space-x-3" >
                                     <label>
                                         <input
                                             type="radio"
@@ -219,13 +219,17 @@ export default function IndexObservations({ results, species }) {
                         </form>
                     </div>
 
+
+
                     <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg">
                         <form onSubmit={handleProjectionSubmit}>
-                            <h2 className="text-xl font-bold">
-                                Projection Fields
+                            <h2 className="pb-3 text-2xl font-bold">
+                                Observations:
                             </h2>
 
-                            <div>
+                            <div className="p-3 space-y-3 border rounded-lg">
+                                <h2 className="text-lg font-bold">Projection Fields:</h2>
+                                <div className="space-x-3">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -249,7 +253,6 @@ export default function IndexObservations({ results, species }) {
                                     />
                                     Quantity
                                 </label>
-
                                 <label>
                                     <input
                                         type="checkbox"
@@ -263,15 +266,17 @@ export default function IndexObservations({ results, species }) {
                                 </label>
                             </div>
 
-                            <button type="submit">
+                            <Button type="submit">
                                 Filter for these values
-                            </button>
+                            </Button>
+                            </div>
                         </form>
 
                         {results.map((observation) => (
-                            <div key={observation.observationID}>
-                                <p>{observation.scientificName}</p>
-                                <p>{observation.quantity}</p>
+                            <div key={observation.observationID}
+                            className="flex items-center justify-between p-3 space-y-1 border rounded-lg">
+                                <p><span className="font-bold">Name:</span> {observation.scientificName}</p>
+                                <p><span className="font-bold">Quantity:</span> {observation.quantity}</p>
                                 <Button
                                     onClick={() =>
                                         router.get(

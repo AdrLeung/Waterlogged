@@ -31,44 +31,69 @@ class ObservationController extends Controller
             'meanLongitude' => ['required', 'numeric', 'between:-180,180'],
             'quantity' => ['required', 'integer', 'min:1'],
             'notes' => ['nullable', 'string'],
-            'scientificName' => [
-                'required',
-                'string',
-            ],
+            'scientificName' => ['required', 'string'],
             'media' => ['nullable', 'array'],
+            'media.*.url' => ['nullable', 'string'],
+            'media.*.type' => ['nullable', 'string'],
             'projectIds' => ['nullable', 'array'],
             'projectIds.*' => ['integer', 'nullable'],
         ]);
 
-
         $email = Auth::user()->email;
 
-        DB::insert('INSERT into observation
+        DB::insert(
+            'INSERT into observation
         (longitude, latitude, quantity, notes, meanLongitude, meanLatitude, scientificName, email, date )
-        values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-            $validated['longitude'],
-            $validated['latitude'],
-            $validated['quantity'],
-            $validated['notes'] ?? null,
-            $validated['meanLongitude'],
-            $validated['meanLatitude'],
-            $validated['scientificName'],
-            $email,
-            Carbon::now(),
-        ]);
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+                $validated['longitude'],
+                $validated['latitude'],
+                $validated['quantity'],
+                $validated['notes'] ?? null,
+                $validated['meanLongitude'],
+                $validated['meanLatitude'],
+                $validated['scientificName'],
+                $email,
+                Carbon::now(),
+            ]
+        );
 
         $observationID = DB::getPdo()->lastInsertId();
-        $projectIDs = $validated['projectIds'];
+
+        $projectIDs = $validated['projectIds'] ?? [];
         foreach ($projectIDs as $projectId) {
-            DB::insert('INSERT into project_observation (projectID, observationID) values (?, ?)', [$projectId, $observationID]);
+            DB::insert(
+                'INSERT into project_observation (projectID, observationID)
+            values (?, ?)',
+                [
+                    $projectId,
+                    $observationID
+                ]
+            );
         }
+
         $mediaID = 1;
-        foreach ($validated["media"] as $url) {
-            DB::insert('INSERT into media (mediaID, observationID, url) values (?, ?, ?)', [$mediaID, $observationID, $url]);
+
+        foreach ($validated['media'] ?? [] as $media) {
+            if (!$media['url']) continue;
+
+            DB::insert(
+                'INSERT into media (mediaID, observationID, url, mediaType)
+            values (?, ?, ?, ?)',
+                [
+                    $mediaID,
+                    $observationID,
+                    $media['url'],
+                    $media['type'] ?: null
+                ]
+            );
+
             $mediaID++;
         }
+
         return redirect()->route("project.index");
     }
+
 
     public function search()
     {
@@ -102,5 +127,15 @@ class ObservationController extends Controller
         $output->media = $media;
 
         return Inertia::render("Observation/ShowObservation", ["observation" => $output, "isProfessional" => UserService::isProfessional()]);
+    }
+
+    public function verify(int $id)
+    {
+        DB::update('UPDATE observation set professionalEmail=? where observationID=?', [Auth::user()->email, $id]);
+    }
+
+    public function update(int $id)
+    {
+        dd($id);
     }
 }
