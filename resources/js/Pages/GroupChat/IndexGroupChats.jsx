@@ -16,6 +16,7 @@ export default function IndexGroupChats({
     const { addToast } = useToast();
     const handleJoin = (groupID) => {
         router.post(route("groupChat.join", parseInt(groupID)));
+        addToast("You Joined A Chat", "success");
     };
 
     const handleLeave = (groupID) => {
@@ -26,6 +27,7 @@ export default function IndexGroupChats({
         setGroupsNotIn((prev) => [...prev, group]);
 
         router.post(route("groupChat.leave", parseInt(groupID)));
+        addToast("I hated those guys anyways", "success");
     };
 
     const handleView = (groupID) => {
