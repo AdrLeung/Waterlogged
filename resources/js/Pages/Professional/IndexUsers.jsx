@@ -16,6 +16,21 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { router } from "@inertiajs/react";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel"
 
 export default function IndexUsers({
     professionals,
@@ -67,103 +82,123 @@ export default function IndexUsers({
 
     return (
         <AppLayout>
-            <h1>your info</h1>
-            <p>{usersProfessionalInfo.username}</p>
-            <p>{usersProfessionalInfo.degree}</p>
-            <p>{usersProfessionalInfo.certification}</p>
-            <p>{usersProfessionalInfo.specialization}</p>
-            <br />
+            <div className="flex flex-col items-center w-full">
+                <Card className="w-1/3 mt-4 mb-4 ">
+                    <CardTitle className="pt-4 pl-4">
+                        <h1>User Information</h1>
+                    </CardTitle>
+                    <CardHeader className="pl-4">
+                        <p>{usersProfessionalInfo.username}</p>
+                    </CardHeader>
+                    <CardDescription className="pb-4 pl-4">
+                        <p>{usersProfessionalInfo.degree}</p>
+                        <p>{usersProfessionalInfo.certification}</p>
+                        <p>{usersProfessionalInfo.specialization}</p>
+                    </CardDescription>
+                </Card>
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                    <Button>Update My Info</Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>Update My Credentials</DialogTitle>
-                        <DialogDescription>
-                            Edit your degree, certification, and specialization
-                            information.
-                        </DialogDescription>
-                    </DialogHeader>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild>
+                        <Button className="mb-4">Update My Info</Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Update My Credentials</DialogTitle>
+                            <DialogDescription>
+                                Edit your degree, certification, and specialization
+                                information.
+                            </DialogDescription>
+                        </DialogHeader>
 
-                    <div className="flex flex-col gap-4">
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="degree">Degree</Label>
-                            <Input
-                                id="degree"
-                                type="text"
-                                value={degree}
-                                onChange={(e) => setDegree(e.target.value)}
-                                placeholder="Enter your degree"
-                            />
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="degree">Degree</Label>
+                                <Input
+                                    id="degree"
+                                    type="text"
+                                    value={degree}
+                                    onChange={(e) => setDegree(e.target.value)}
+                                    placeholder="Enter your degree"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="certification">Certification</Label>
+                                <Input
+                                    id="certification"
+                                    type="text"
+                                    value={certification}
+                                    onChange={(e) =>
+                                        setCertification(e.target.value)
+                                    }
+                                    placeholder="Enter your certification"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="specialization">
+                                    Specialization
+                                </Label>
+                                <Input
+                                    id="specialization"
+                                    type="text"
+                                    value={specialization}
+                                    onChange={(e) =>
+                                        setSpecialization(e.target.value)
+                                    }
+                                    placeholder="Enter your specialization"
+                                />
+                            </div>
                         </div>
 
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="certification">Certification</Label>
-                            <Input
-                                id="certification"
-                                type="text"
-                                value={certification}
-                                onChange={(e) =>
-                                    setCertification(e.target.value)
-                                }
-                                placeholder="Enter your certification"
-                            />
-                        </div>
+                        <DialogFooter>
+                            <Button
+                                onClick={handleUpdateCredentials}
+                                className="w-full"
+                            >
+                                Submit
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
 
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="specialization">
-                                Specialization
-                            </Label>
-                            <Input
-                                id="specialization"
-                                type="text"
-                                value={specialization}
-                                onChange={(e) =>
-                                    setSpecialization(e.target.value)
-                                }
-                                placeholder="Enter your specialization"
-                            />
-                        </div>
-                    </div>
-
-                    <DialogFooter>
-                        <Button
-                            onClick={handleUpdateCredentials}
-                            className="w-full"
-                        >
-                            Submit
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-
-            <br />
-            <h1>professionals</h1>
-            {professionals.map((professional, index) => (
-                <div key={index}>
-                    <p>{professional.username}</p>
-                    <p>{professional.degree}</p>
-                    <p>{professional.certification}</p>
-                    <p>{professional.specialization}</p>
-                    <br />
+                <div className="flex gap-4 mb-4">
+                    <Card className="w-full">
+                        <CardTitle className="pl-4 mt-4 mb-4">
+                            <h1>Professionals</h1>
+                        </CardTitle>
+                        <CardDescription>
+                            {professionals.map((professional, index) => (
+                                <div key={index} className="pl-4 mb-2">
+                                    <p>{professional.username}</p>
+                                    <p>{professional.degree}</p>
+                                    <p>{professional.certification}</p>
+                                    <p>{professional.specialization}</p>
+                                    <br />
+                                </div>
+                            ))}
+                        </CardDescription>
+                    </Card>
+                    <Card className="w-full">
+                        <CardTitle className="pl-4 mt-4 mb-4">
+                            <h1>Administrative actions</h1>
+                        </CardTitle>
+                        <CardDescription>
+                            {users.map((user, index) => (
+                                <div key={index} className="pl-4 mb-4">
+                                    <p>{user.username}</p>
+                                    <Button
+                                        className="overflow-visible bg-green-800"
+                                        onClick={() => makeProfessional(user.email)}
+                                    >
+                                        Promote
+                                    </Button>
+                                </div>
+                            ))}
+                        </CardDescription>
+                    </Card>
                 </div>
-            ))}
-
-            <h1>users</h1>
-
-            {users.map((user, index) => (
-                <div key={index}>
-                    <p>{user.username}</p>
-                    <Button
-                        className="overflow-visible bg-green-800"
-                        onClick={() => makeProfessional(user.email)}
-                    >
-                        Promote
-                    </Button>
-                </div>
-            ))}
+            </div>
         </AppLayout>
     );
 }
