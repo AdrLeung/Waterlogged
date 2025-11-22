@@ -66,6 +66,16 @@ class ObservationController extends Controller
             DB::insert('INSERT into media (mediaID, observationID, url) values (?, ?, ?)', [$mediaID, $observationID, $url]);
             $mediaID++;
         }
-        dd("worked");
+        return redirect()->route("project.index");
     }
+
+    public function search()
+    {
+        $observations = DB::select("SELECT * FROM observation");
+        $species = DB::select('SELECT * from species');
+
+        return Inertia::render("Observation/IndexObservations", ["results" => $observations, "species" => $species]);
+    }
+
+    public function select() {}
 }

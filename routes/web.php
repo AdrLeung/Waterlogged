@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpeciesController;
 use App\Http\Middleware\CheckProfessionalMiddleware;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,6 +28,8 @@ Route::post('/delete-message/{id}', [MessageController::class, "delete"])->name(
 
 Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create")->middleware('auth');
 Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store")->middleware('auth');
+Route::get('/search-observations', [ObservationController::class, "search"])->name("observation.search");
+Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
 
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
 
@@ -52,6 +55,7 @@ Route::post('/update-credentials', [ProfessionalController::class, "update"])->n
 Route::get('/test', function () {
     return "test";
 })->name("test")->middleware(CheckProfessionalMiddleware::class);
+
 
 
 require __DIR__ . '/auth.php';

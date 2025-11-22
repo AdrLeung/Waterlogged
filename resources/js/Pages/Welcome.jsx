@@ -1,3 +1,4 @@
+import { useProfessional } from "@/Components/Hooks/UseProfessional";
 import { Button } from "@/Components/ui/button";
 import AppLayout from "@/Layouts/AppLayout";
 import { Head, router, usePage } from "@inertiajs/react";
@@ -21,6 +22,15 @@ export default function Welcome() {
 
                     <Button onClick={() => router.get(route("project.index"))}>
                         index projects
+                    </Button>
+                    <Button
+                        onClick={() => router.get(route("observation.search"))}
+                    >
+                        View All Observations
+                    </Button>
+
+                    <Button onClick={() => router.get(route("users.index"))}>
+                        View All Users
                     </Button>
                 </div>
             </div>
