@@ -142,7 +142,7 @@ export default function CreateObservation({
                 <div className="gap-4 p-8 bg-white border rounded-lg ">
 
                     {/*Title*/}
-                    <h1 className="mb-4 text-xl font-semibold text-center">Create Observation</h1>
+                    <h1 className="mb-4 text-3xl font-bold text-center">Create Observation</h1>
 
 
             <form onSubmit={handleSubmit} className="max-w-md space-y-4">

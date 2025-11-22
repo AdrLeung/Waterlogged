@@ -28,6 +28,7 @@ export default function IndexProjects({ isProfessional, projects }) {
 
     return (
         <AppLayout>
+            <div className="">
             <div className="z-0 ml-4">
                 {isProfessional && <CreateProjectDialog />}
                 {auth.user && (
@@ -83,6 +84,7 @@ export default function IndexProjects({ isProfessional, projects }) {
                     </CardContent>
                 </Card>)
             })}
+            </div>
         </AppLayout>
     );
 }
