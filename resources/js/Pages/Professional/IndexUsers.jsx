@@ -24,13 +24,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
+
 
 export default function IndexUsers({
     professionals,
@@ -163,23 +157,29 @@ export default function IndexUsers({
                 </Dialog>
 
                 <div className="flex gap-4 mb-4">
-                    <Card className="w-full">
+                    <Card className="w-full max-h-[400px] overflow-auto">
                         <CardTitle className="pl-4 mt-4 mb-4">
                             <h1>Professionals</h1>
                         </CardTitle>
                         <CardDescription>
                             {professionals.map((professional, index) => (
-                                <div key={index} className="pl-4 mb-2">
-                                    <p>{professional.username}</p>
-                                    <p>{professional.degree}</p>
-                                    <p>{professional.certification}</p>
-                                    <p>{professional.specialization}</p>
-                                    <br />
-                                </div>
+                                <Card className="mb-4 ml-4 mr-4">
+                                    <CardHeader className="pl-4">
+                                        <p>{professional.username}</p>
+                                    </CardHeader>
+                                    <CardDescription className="pl-4 mb-2">
+                                        <div key={index}>
+                                            <p>{professional.degree}</p>
+                                            <p>{professional.certification}</p>
+                                            <p>{professional.specialization}</p>
+                                        </div>
+                                    </CardDescription>
+                                    
+                                </Card>
                             ))}
                         </CardDescription>
                     </Card>
-                    <Card className="w-full">
+                    <Card className="w-full max-h-[400px] overflow-auto">
                         <CardTitle className="pl-4 mt-4 mb-4">
                             <h1>Administrative actions</h1>
                         </CardTitle>
