@@ -51,7 +51,7 @@ export default function IndexObservations({ results, species }) {
                                 Selection Filters:
                             </h2>
 
-                            <div>
+                            <div className="pb-3">
                                 <label>Species involved:</label>
                                 <div>
                                     <button
@@ -139,7 +139,7 @@ export default function IndexObservations({ results, species }) {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="pb-3">
                                 <label>Upper bound for quantity</label>
                                 <Input
                                     type="number"
@@ -150,7 +150,7 @@ export default function IndexObservations({ results, species }) {
                                     }
                                 />
                             </div>
-                            <div>
+                            <div className="pb-3">
                                 <label>Lower Bound for Quantity</label>
                                 <Input
                                     type="number"
@@ -164,7 +164,7 @@ export default function IndexObservations({ results, species }) {
 
                             <div>
                                 <label>Made by professional:</label>
-                                <div>
+                                <div className="pb-5 space-x-3" >
                                     <label>
                                         <input
                                             type="radio"
@@ -219,13 +219,17 @@ export default function IndexObservations({ results, species }) {
                         </form>
                     </div>
 
+
+
                     <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg">
                         <form onSubmit={handleProjectionSubmit}>
-                            <h2 className="text-xl font-bold">
-                                Projection Fields
+                            <h2 className="pb-3 text-2xl font-bold">
+                                Observations
                             </h2>
 
-                            <div>
+                            <div className="p-3 space-y-3 border rounded-lg">
+                                <h2 className="text-lg font-bold">Projection Fields:</h2>
+                                <div className="space-x-3">
                                 <label>
                                     <input
                                         type="checkbox"
@@ -249,7 +253,6 @@ export default function IndexObservations({ results, species }) {
                                     />
                                     Quantity
                                 </label>
-
                                 <label>
                                     <input
                                         type="checkbox"
@@ -263,9 +266,10 @@ export default function IndexObservations({ results, species }) {
                                 </label>
                             </div>
 
-                            <button type="submit">
+                            <Button type="submit">
                                 Filter for these values
-                            </button>
+                            </Button>
+                            </div>
                         </form>
 
                         {results.map((observation) => (
