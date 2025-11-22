@@ -134,6 +134,14 @@ export default function CreateObservation({
 
     return (
         <AppLayout>
+            {/*Background/general layout*/}
+            <div className="flex items-start justify-center min-h-screen p-6 bg-slate-600">
+                {/*centre card*/}
+                <div className="p-6 space-y-4 bg-white border rounded-xl">
+
+                    <h1>Create Observation</h1>
+
+
             <form onSubmit={handleSubmit} className="max-w-md space-y-4">
                 <div>
                     <Label htmlFor="location">Location</Label>
@@ -407,6 +415,8 @@ export default function CreateObservation({
 
                 <Button type="submit">Submit Observation</Button>
             </form>
+            </div>
+            </div>
         </AppLayout>
     );
 }
