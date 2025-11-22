@@ -13,6 +13,7 @@ export default function CreateGroupChat() {
     const handleSubmit = (e) => {
         e.preventDefault();
         router.post(route("groupChat.store"), { groupChatName: groupName });
+
     };
     return (
         <AppLayout>
