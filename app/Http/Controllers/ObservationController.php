@@ -78,4 +78,28 @@ class ObservationController extends Controller
     }
 
     public function select() {}
+
+    public function show(int $id)
+    {
+        $observation = DB::select(
+            'SELECT o.*, u.username
+            FROM observation o
+            JOIN user u ON u.email = o.email
+            WHERE o.observationID=?',
+            [$id]
+        );
+
+        $media = DB::select(
+            'SELECT *
+            FROM media
+            WHERE observationID=?',
+            [$id]
+        );
+
+        $output = [];
+        $output = $observation[0];
+        $output->media = $media;
+
+        return Inertia::render("Observation/ShowObservation", ["observation" => $output]);
+    }
 }

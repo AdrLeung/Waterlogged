@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
+import { router } from "@inertiajs/react";
 
 export default function IndexObservations({ results, species }) {
     const [projectionFields, setProjectionFields] = useState([]);
@@ -243,11 +244,21 @@ export default function IndexObservations({ results, species }) {
                     <button type="submit">Filter for these values</button>
                 </form>
 
-                {results.map((obvservation) => (
-                    <div key={obvservation.obvservationID}>
-                        <p>{obvservation.scientificName}</p>
-                        <p>{obvservation.quantity}</p>
-                        <Button>Delete</Button>
+                {results.map((observation) => (
+                    <div key={observation.obvservationID}>
+                        <p>{observation.scientificName}</p>
+                        <p>{observation.quantity}</p>
+                        <Button
+                            onClick={() =>
+                                router.get(
+                                    route("observation.show", {
+                                        id: observation.observationID,
+                                    })
+                                )
+                            }
+                        >
+                            View Observation
+                        </Button>
                     </div>
                 ))}
             </div>
