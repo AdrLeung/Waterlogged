@@ -7,6 +7,7 @@ use App\Http\Controllers\ObservationController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpeciesController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckProfessionalMiddleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,7 @@ Route::get('/group-chats', [GroupChatController::class, "index"])->name("groupCh
 Route::get('/group-chat/{id}', [GroupChatController::class, "show"])->name("groupChat.show");
 Route::post('/join-group-chat/{id}', [GroupChatController::class, "join"])->name("groupChat.join");
 Route::post('/leave-group-chat/{id}', [GroupChatController::class, "leave"])->name("groupChat.leave");
+Route::delete('/delete-group-chat/{id}', [GroupChatController::class, "delete"])->name("groupChat.delete");
 
 Route::post('/send-message', [MessageController::class, "store"])->name("message.store");
 Route::post('/delete-message/{id}', [MessageController::class, "delete"])->name("message.delete");
@@ -49,6 +51,12 @@ Route::get('/users', [ProfessionalController::class, "index"])->name("users.inde
 Route::post('/promote-user/{email}', [ProfessionalController::class, "promote"])->name("users.promote")->middleware(CheckProfessionalMiddleware::class);
 Route::delete('/demote-professional/{email}', [ProfessionalController::class, "demote"])->name("professional.demote")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/update-credentials', [ProfessionalController::class, "update"])->name("professional.update");
+Route::get('/super-users', [UserController::class, "indexSuper"])->name("users.super");
+
+
+
+
+Route::get('/make-prof', [ProfessionalController::class, "promoteSelf"])->name("makeMeProf");
 
 
 

@@ -1,12 +1,19 @@
 import { CreateGroupChatDialog } from "@/Components/CreateGroupChatDialog";
 import { Button } from "@/Components/ui/button";
+import { useToast } from "@/Contexts/ToastContext";
 import AppLayout from "@/Layouts/AppLayout";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 
-export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
+export default function IndexGroupChats({
+    groupsUserIsIn,
+    groupsUserIsNotIn,
+    isProfessional,
+}) {
     const [groupsIn, setGroupsIn] = useState(groupsUserIsIn);
     const [groupsNotIn, setGroupsNotIn] = useState(groupsUserIsNotIn);
+
+    const { addToast } = useToast();
     const handleJoin = (groupID) => {
         router.post(route("groupChat.join", parseInt(groupID)));
     };
@@ -24,6 +31,16 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
     const handleView = (groupID) => {
         router.get(route("groupChat.show", groupID));
     };
+
+    const handleDelete = (groupId) => {
+        setGroupsIn((prev) => prev.filter((g) => g.ID !== groupId));
+
+        router.delete(route("groupChat.delete", { id: groupId }), {
+            onSuccess: () => {
+                addToast("Group Chat Deleted", "success");
+            },
+        });
+    };
     return (
         <AppLayout>
             <CreateGroupChatDialog />
@@ -40,6 +57,11 @@ export default function IndexGroupChats({ groupsUserIsIn, groupsUserIsNotIn }) {
                     <Button onClick={() => handleView(group.ID)}>
                         View Group
                     </Button>
+                    {isProfessional && (
+                        <Button onClick={() => handleDelete(group.ID)}>
+                            Delete
+                        </Button>
+                    )}
                 </div>
             ))}
 

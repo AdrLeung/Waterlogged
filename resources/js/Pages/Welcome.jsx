@@ -1,4 +1,3 @@
-import { useProfessional } from "@/Components/Hooks/UseProfessional";
 import { Button } from "@/Components/ui/button";
 import AppLayout from "@/Layouts/AppLayout";
 import { Head, router, usePage } from "@inertiajs/react";
@@ -31,6 +30,9 @@ export default function Welcome() {
 
                     <Button onClick={() => router.get(route("users.index"))}>
                         View All Users
+                    </Button>
+                    <Button onClick={() => router.get(route("users.super"))}>
+                        View Super Users
                     </Button>
                 </div>
             </div>

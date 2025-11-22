@@ -160,7 +160,7 @@ export default function IndexUsers({
                         className="overflow-visible bg-green-800"
                         onClick={() => makeProfessional(user.email)}
                     >
-                        make user
+                        Promote
                     </Button>
                 </div>
             ))}

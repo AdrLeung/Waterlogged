@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
@@ -16,7 +17,7 @@ class GroupChatController extends BaseController
     {
         $this->middleware('auth');
     }
-    // this route returns all of the gcs the user is in and a seperate list of the gcs the user is not in
+
     public function index()
     {
         $email = Auth::user()->email;
@@ -39,7 +40,11 @@ class GroupChatController extends BaseController
             [$email]
         );
 
-        return Inertia::render("GroupChat/IndexGroupChats", ['groupsUserIsIn' => $groupChatsUserIsIn, 'groupsUserIsNotIn' => $groupChatsUserNotIn]);
+        return Inertia::render("GroupChat/IndexGroupChats", [
+            'groupsUserIsIn' => $groupChatsUserIsIn,
+            'groupsUserIsNotIn' => $groupChatsUserNotIn,
+            'isProfessional' => UserService::isProfessional($email)
+        ]);
     }
 
     // you may or made not need this route
@@ -107,5 +112,12 @@ class GroupChatController extends BaseController
         $email = Auth::user()->email;
         DB::delete('DELETE FROM  groupChat_user where email = ? and ID = ?', [$email, $groupChatId]);
         return redirect()->route("groupChat.index");
+    }
+
+
+    public function delete(int $groupChatId)
+    {
+        DB::delete('DELETE FROM groupChat  where ID = ?', [$groupChatId]);
+        return redirect()->route("welcome");
     }
 }

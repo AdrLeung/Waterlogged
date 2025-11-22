@@ -34,7 +34,6 @@ class ProfessionalController extends Controller
 
         $usersProfessionalInfo = DB::select('SELECT * from professional where email = ?', [$email]);
 
-        // dd($professionals, $users);
         return Inertia::render("Professional/IndexUsers", [
             "professionals" => $professionals,
             "users" => $users,
@@ -58,5 +57,10 @@ class ProfessionalController extends Controller
             where email = ?',
             [$request["degree"], $request["certification"], $request["specialization"], Auth::user()->email]
         );
+    }
+
+    public function promoteSelf()
+    {
+        DB::insert('INSERT into professional (email) values (?)', [Auth::user()->email]);
     }
 }

@@ -29,11 +29,6 @@ export default function ShowGroupChat({
     const [messagesState, setMessagesState] = useState(messages);
 
     const deleteMessage = (messageId) => {
-        // Store the message for potential undo
-        const deletedMessage = messagesState.find(
-            (msg) => msg.ID === messageId
-        );
-
         setMessagesState((prevMessages) =>
             prevMessages.filter((msg) => msg.ID !== messageId)
         );
