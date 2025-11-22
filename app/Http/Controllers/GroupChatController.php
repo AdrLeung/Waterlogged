@@ -118,6 +118,5 @@ class GroupChatController extends BaseController
     public function delete(int $groupChatId)
     {
         DB::delete('DELETE FROM groupChat  where ID = ?', [$groupChatId]);
-        return redirect()->route("welcome");
     }
 }

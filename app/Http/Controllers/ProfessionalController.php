@@ -62,5 +62,6 @@ class ProfessionalController extends Controller
     public function promoteSelf()
     {
         DB::insert('INSERT into professional (email) values (?)', [Auth::user()->email]);
+        return redirect()->route("welcome");
     }
 }
