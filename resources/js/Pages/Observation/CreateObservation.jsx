@@ -29,11 +29,9 @@ export default function CreateObservation({
         quantity: "",
         notes: "",
         scientificName: "",
-        media: [""],
+        media: [{ url: "", type: "" }],
         projectIds: [],
     });
-
-    console.log(form);
 
     const [speciesState, setSpecies] = useState(species);
     const [showNewSpecies, setShowNewSpecies] = useState(false);
@@ -62,14 +60,17 @@ export default function CreateObservation({
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleMediaChange = (index, value) => {
+    const handleMediaChange = (index, field, value) => {
         const newMedia = [...form.media];
-        newMedia[index] = value;
+        newMedia[index][field] = value;
         setForm((prev) => ({ ...prev, media: newMedia }));
     };
 
     const addMediaField = () =>
-        setForm((prev) => ({ ...prev, media: [...prev.media, ""] }));
+        setForm((prev) => ({
+            ...prev,
+            media: [...prev.media, { url: "", type: "" }],
+        }));
 
     const removeMediaField = () => {
         if (form.media.length <= 1) return;
@@ -124,7 +125,6 @@ export default function CreateObservation({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(form);
 
         router.post(
             route("observation.store", form),
@@ -145,12 +145,9 @@ export default function CreateObservation({
 
     return (
         <AppLayout>
-            {/*Background/general layout*/}
             <div className="flex items-start justify-center min-h-screen p-6 bg-slate-600">
-                {/*centre card*/}
                 <div className="w-full max-w-lg space-y-10">
                     <div className="gap-4 p-8 bg-white border rounded-lg ">
-                        {/*Title*/}
                         <h1 className="mb-4 text-3xl font-bold text-center">
                             Create Observation
                         </h1>
@@ -428,18 +425,47 @@ export default function CreateObservation({
                             </div>
 
                             <div>
-                                <Label>Media URLs</Label>
+                                <Label>Media</Label>
                                 {form.media.map((m, i) => (
-                                    <Input
-                                        key={i}
-                                        type="text"
-                                        placeholder="Media URL"
-                                        value={m || ""}
-                                        onChange={(e) =>
-                                            handleMediaChange(i, e.target.value)
-                                        }
-                                    />
+                                    <div key={i} className="flex gap-2 mb-2">
+                                        <Input
+                                            type="text"
+                                            placeholder="Media URL"
+                                            value={m.url}
+                                            onChange={(e) =>
+                                                handleMediaChange(
+                                                    i,
+                                                    "url",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+
+                                        <Select
+                                            value={m.type}
+                                            onValueChange={(value) =>
+                                                handleMediaChange(
+                                                    i,
+                                                    "type",
+                                                    value
+                                                )
+                                            }
+                                        >
+                                            <SelectTrigger className="w-[120px]">
+                                                <SelectValue placeholder="Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="image">
+                                                    Image
+                                                </SelectItem>
+                                                <SelectItem value="video">
+                                                    Video
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 ))}
+
                                 <div className="flex gap-2 mt-2">
                                     <Button
                                         type="button"
