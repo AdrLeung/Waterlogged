@@ -37,6 +37,9 @@ export default function Welcome() {
                     <Button onClick={() => router.get(route("projects.gems"))}>
                         Hidden Gems
                     </Button>
+                    <Button onClick={() => router.get(route("users.index"))}>
+                        users
+                    </Button>
                 </div>
             </div>
         </AppLayout>

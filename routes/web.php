@@ -31,7 +31,7 @@ Route::post('/delete-message/{id}', [MessageController::class, "delete"])->name(
 Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create")->middleware('auth');
 Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store")->middleware('auth');
 Route::get('/search-observations', [ObservationController::class, "search"])->name("observation.search");
-Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
+// Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
 
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
 
