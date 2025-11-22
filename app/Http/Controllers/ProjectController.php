@@ -16,10 +16,11 @@ class ProjectController extends Controller
     {
         $isProfessional = Auth::user()?->email ? true : false;
         $projects = DB::select(
-            'SELECT p.*, count(po.observationID) as observationCount
-            from project p
-            left join project_observation po on p.projectID = po.projectID
-            group by p.projectID
+            'SELECT p.*, o.*, count(po.observationID) as observationCount
+            FROM project p
+            LEFT JOIN project_observation po ON p.projectID = po.projectID
+            LEFT JOIN observation o ON o.observationID = po.observationID
+            GROUP BY p.projectID
             '
         );
         return Inertia::render("Project/IndexProjects", [
@@ -27,7 +28,6 @@ class ProjectController extends Controller
             'projects' => $projects
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
