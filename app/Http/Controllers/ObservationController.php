@@ -103,4 +103,9 @@ class ObservationController extends Controller
 
         return Inertia::render("Observation/ShowObservation", ["observation" => $output, "isProfessional" => UserService::isProfessional()]);
     }
+
+    public function verify(int $id)
+    {
+        DB::update('UPDATE observation set professionalEmail=? where observationID=?', [Auth::user()->email, $id]);
+    }
 }

@@ -33,6 +33,7 @@ Route::post('/store-observation', [ObservationController::class, "store"])->name
 Route::get('/search-observations', [ObservationController::class, "search"])->name("observation.search");
 // Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
 Route::get('/observation/{id}', [ObservationController::class, "show"])->name("observation.show");
+Route::post('/verify-observation/{id}', [ObservationController::class, "verify"])->name("observation.verify");
 
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
 
