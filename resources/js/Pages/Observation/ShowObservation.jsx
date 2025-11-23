@@ -39,11 +39,11 @@ export default function ShowObservation({ observation, isProfessional }) {
 
             <div>
                 <div className="p-6 bg-white border rounded-xl">
-            <p>media:</p>
+            <p className="pb-2 text-lg font-semibold">Media:</p>
 
             {observation.media.map((m) => (
                 <div key={m.mediaID}>
-                    <p>mediaID: {m.mediaID}</p>
+                    <p>Media ID: {m.mediaID}</p>
 
                     {m.mediaType === "image" ? (
                         <img src={m.URL} alt="" width="200" />
@@ -60,10 +60,10 @@ export default function ShowObservation({ observation, isProfessional }) {
                 </div>
             ))}
             </div>
-            </div>
 
+            <div className="py-2 space-x-2 text-center">
             {isProfessional && !observation.professionalEmail && (
-                <Button onClick={handleVerification}>verify</Button>
+                <Button onClick={handleVerification}>Verify</Button>
             )}
             {email == observation.email && (
                 <Button
@@ -76,6 +76,8 @@ export default function ShowObservation({ observation, isProfessional }) {
                     Update
                 </Button>
             )}
+                    </div>
+                </div>
             </div>
         </AppLayout>
     );
