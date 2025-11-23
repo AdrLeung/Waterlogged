@@ -13,26 +13,49 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request);
+        $filters = $request->input("filters", []);
+
+        $name = $filters["name"] ?? "";
+        $species = $filters["species"] ?? 0;
+        $observations = $filters["observations"] ?? 0;
+        $contributors = $filters["contributors"] ?? 0;
+
+        // dd($name, $species, $observations, $contributors);
+        // $ = $filters["name"];
+        // dd($name);
         $isProfessional = UserService::isProfessional();
         $projectObservations = DB::select(
             'SELECT p.projectID, p.name AS projectName, p.description, o.observationID, o.notes
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
-        '
+            WHERE p.name LIKE ?
+        ',
+            ['%' . $name . '%']
         );
-
+        // dd($projectObservations);
         $projectObservationCount = DB::select(
             'SELECT p.projectID, COUNT(*) as observationCount
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
+            WHERE p.projectID IN (SELECT p.projectID
+                    FROM project p
+                    LEFT JOIN project_observation po ON p.projectID = po.projectID
+                    LEFT JOIN observation o ON o.observationID = po.observationID
+                    WHERE p.name LIKE ?
+
+                )
             GROUP BY p.projectID
-        '
+        ',
+            ['%' . $name . '%']
+
         );
         $projects = [];
+
 
         foreach ($projectObservations as $projectObservation) {
             $projectID = $projectObservation->projectID;
@@ -58,6 +81,7 @@ class ProjectController extends Controller
             $projects[$idCount->projectID]["observationCount"] =
                 $idCount->observationCount;
         }
+
 
         return Inertia::render("Project/IndexProjects", [
             'isProfessional' => $isProfessional,
