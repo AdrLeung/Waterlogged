@@ -89,7 +89,7 @@ class ProfessionalController extends Controller
                         FROM project p
                         LEFT JOIN project_observation po ON p.projectID = po.projectID
                         GROUP BY p.projectID
-                    ) AS x
+                    )
             );
             ',
         );
@@ -109,8 +109,20 @@ class ProfessionalController extends Controller
             ) '
         );
 
+        $great_users = DB::select(
+            'SELECT u.email, u.username, COUNT(DISTINCT o.scientificName) AS speciesCount
+            FROM user u
+            JOIN observation o ON o.email = u.email
+            GROUP BY u.email
+            HAVING COUNT(DISTINCT o.scientificName) >= 2
+            '
+        );
 
 
-        return Inertia::render("Project/HiddenGemProjects", ["projects" => $projects, "superUsers" => $superUsers]);
+        return Inertia::render("Project/ExtrasDashboard", [
+            "projects" => $projects,
+            "superUsers" => $superUsers,
+            "greatUsers" => $great_users
+        ]);
     }
 }

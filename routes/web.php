@@ -37,7 +37,10 @@ Route::post('/verify-observation/{id}', [ObservationController::class, "verify"]
 Route::get('/edit-observation/{id}', [ObservationController::class, "edit"])->name("observation.edit");
 Route::post('/update-observation/{id}', [ObservationController::class, 'update'])->name('observation.update');
 
+
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
+
+
 
 Route::get('/create-project', [ProjectController::class, 'create'])->name("project.create")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/store-project', [ProjectController::class, 'store'])->name("project.store")->middleware(CheckProfessionalMiddleware::class);
@@ -56,7 +59,6 @@ Route::post('/promote-user/{email}', [ProfessionalController::class, "promote"])
 Route::delete('/demote-professional/{email}', [ProfessionalController::class, "demote"])->name("professional.demote")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/update-credentials', [ProfessionalController::class, "update"])->name("professional.update");
 Route::get('/super-users', [UserController::class, "indexSuper"])->name("users.super");
-
 
 
 

@@ -13,11 +13,10 @@ export default function CreateGroupChat() {
     const handleSubmit = (e) => {
         e.preventDefault();
         router.post(route("groupChat.store"), { groupChatName: groupName });
-
     };
     return (
         <AppLayout>
-            <div className="flex items-center justify-center h-screen bg-slate-600">
+            <div className="flex items-center justify-center h-screen ">
                 <Card className="w-full max-w-md shadow-white">
                     <CardHeader>
                         <CardTitle className="text-2xl center font-">

@@ -5,7 +5,7 @@ import { Head } from "@inertiajs/react";
 
 export default function AppLayout({ children }) {
     return (
-        <div className="min-h-screen bg-slate-600">
+        <div className="min-h-screen bg-sky-900/70">
             <Head title="Sample Project" />
             <Navbar />
             <main className="h-full">{children}</main>

@@ -149,7 +149,7 @@ export default function UpdateObservation({
 
     return (
         <AppLayout>
-            <div className="flex items-start justify-center min-h-screen p-6 bg-slate-600">
+            <div className="flex items-start justify-center min-h-screen p-6 ">
                 <div className="w-full max-w-lg space-y-10">
                     <div className="gap-4 p-8 bg-white border rounded-lg ">
                         <h1 className="mb-4 text-3xl font-bold text-center">
