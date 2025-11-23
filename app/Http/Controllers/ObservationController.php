@@ -134,8 +134,92 @@ class ObservationController extends Controller
         DB::update('UPDATE observation set professionalEmail=? where observationID=?', [Auth::user()->email, $id]);
     }
 
-    public function update(int $id)
+    public function edit(int $id)
     {
-        dd($id);
+        // dd($id);
+
+        $observation = DB::select('SELECT * FROM observation o WHERE o.observationID=?', [$id]);
+        $locations = DB::select('SELECT * from location');
+        $species = DB::select('SELECT * from species');
+        $projects =  DB::select('SELECT * from project');
+        $genusList =  DB::select('SELECT * from genus');
+        $media = DB::select("SELECT * from media m WHERE observationID=?", [$id]);
+
+        return Inertia::render("Observation/UpdateObservation", [
+            "observation" => $observation,
+            'genusList' => $genusList,
+            'locations' => $locations,
+            'species' => $species,
+            'projects' => $projects,
+            "media" => $media
+        ]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'meanLatitude' => ['required', 'numeric', 'between:-90,90'],
+            'meanLongitude' => ['required', 'numeric', 'between:-180,180'],
+            'quantity' => ['required', 'integer', 'min:1'],
+            'notes' => ['nullable', 'string'],
+            'scientificName' => ['required', 'string'],
+            'media' => ['nullable', 'array'],
+            'media.*.url' => ['nullable', 'string'],
+            'media.*.type' => ['nullable', 'string'],
+            'projectIds' => ['nullable', 'array'],
+            'projectIds.*' => ['integer', 'nullable'],
+        ]);
+
+        DB::update(
+            'UPDATE observation SET
+            longitude = ?,
+            latitude = ?,
+            meanLongitude = ?,
+            meanLatitude = ?,
+            quantity = ?,
+            notes = ?,
+            scientificName = ?
+        WHERE observationID = ?',
+            [
+                $validated['longitude'],
+                $validated['latitude'],
+                $validated['meanLongitude'],
+                $validated['meanLatitude'],
+                $validated['quantity'],
+                $validated['notes'] ?? null,
+                $validated['scientificName'],
+                $id
+            ]
+        );
+
+        DB::delete('DELETE FROM project_observation WHERE observationID = ?', [$id]);
+        $projectIDs = $validated['projectIds'] ?? [];
+        foreach ($projectIDs as $projectId) {
+            DB::insert(
+                'INSERT INTO project_observation (projectID, observationID) VALUES (?, ?)',
+                [$projectId, $id]
+            );
+        }
+
+        DB::delete('DELETE FROM media WHERE observationID = ?', [$id]);
+        $mediaID = 1;
+        foreach ($validated['media'] ?? [] as $media) {
+            if (!$media['url']) continue;
+
+            DB::insert(
+                'INSERT INTO media (mediaID, observationID, url, mediaType) VALUES (?, ?, ?, ?)',
+                [
+                    $mediaID,
+                    $id,
+                    $media['url'],
+                    $media['type'] ?? null
+                ]
+            );
+            $mediaID++;
+        }
+
+        return redirect()->route('observation.show', ['id' => $id]);
     }
 }

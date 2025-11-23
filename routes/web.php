@@ -34,7 +34,8 @@ Route::get('/search-observations', [ObservationController::class, "search"])->na
 // Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
 Route::get('/observation/{id}', [ObservationController::class, "show"])->name("observation.show");
 Route::post('/verify-observation/{id}', [ObservationController::class, "verify"])->name("observation.verify");
-Route::post('/update-observation/{id}', [ObservationController::class, "update"])->name("observation.update");
+Route::get('/edit-observation/{id}', [ObservationController::class, "edit"])->name("observation.edit");
+Route::post('/update-observation/{id}', [ObservationController::class, 'update'])->name('observation.update');
 
 Route::post('/create-species', [SpeciesController::class, "store"])->name("species.store");
 

@@ -58,11 +58,8 @@ export default function ShowObservation({ observation, isProfessional }) {
             {email == observation.email && (
                 <Button
                     onClick={() =>
-                        router.post(
-                            route(
-                                "observation.update",
-                                observation.observationID
-                            )
+                        router.get(
+                            route("observation.edit", observation.observationID)
                         )
                     }
                 >
