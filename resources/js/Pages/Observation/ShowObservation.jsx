@@ -17,20 +17,28 @@ export default function ShowObservation({ observation, isProfessional }) {
 
     return (
         <AppLayout>
-            <p>observationID: {observation.observationID}</p>
-            <p>scientificName: {observation.scientificName}</p>
-            <p>quantity: {observation.quantity}</p>
-            <p>username: {observation.username}</p>
-            <p>email: {observation.email}</p>
-            <p>professionalEmail: {observation.professionalEmail}</p>
-            <p>date: {observation.date}</p>
-            <p>dateConfirmed: {observation.dateConfirmed}</p>
-            <p>latitude: {observation.latitude}</p>
-            <p>longitude: {observation.longitude}</p>
-            <p>meanLatitude: {observation.meanLatitude}</p>
-            <p>meanLongitude: {observation.meanLongitude}</p>
-            <p>notes: {observation.notes}</p>
+            <h1 className="pt-3 text-3xl font-extrabold text-center">Observation View</h1>
+            <div className="flex items-start justify-center min-h-screen p-6 space-x-3">
+                <div className="w-full max-w-lg space-y-3">
+                    <div className="p-6 bg-white border rounded-xl">
+            <p className="pb-3 text-lg font-bold">Scientific Name: {observation.scientificName}</p>
+            <p>Submitted By: {observation.username} </p>
+            <p>Email: {observation.email}</p>
+            <p className="pb-2">Date: {observation.date}</p>
+            <p>Confirmed By: {observation.professionalEmail}</p>
+            <p className="pb-2">Date Confirmed: {observation.dateConfirmed}</p>
+            <p>Latitude: {observation.latitude}</p>
+            <p>Longitude: {observation.longitude}</p>
+            <p>Mean Latitude: {observation.meanLatitude}</p>
+            <p className="pb-2">Mean Longitude: {observation.meanLongitude}</p>
+            <p>Quantity: {observation.quantity}</p>
+            <p>Notes: {observation.notes}</p>
+            <p className="pt-3 text-xs text-gray-400">Observation ID: {observation.observationID}</p>
+            </div>
+            </div>
 
+            <div>
+                <div className="p-6 bg-white border rounded-xl">
             <p>media:</p>
 
             {observation.media.map((m) => (
@@ -51,6 +59,8 @@ export default function ShowObservation({ observation, isProfessional }) {
                     {}
                 </div>
             ))}
+            </div>
+            </div>
 
             {isProfessional && !observation.professionalEmail && (
                 <Button onClick={handleVerification}>verify</Button>
@@ -66,6 +76,7 @@ export default function ShowObservation({ observation, isProfessional }) {
                     Update
                 </Button>
             )}
+            </div>
         </AppLayout>
     );
 }
