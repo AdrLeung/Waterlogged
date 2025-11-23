@@ -32,7 +32,7 @@ class ProjectController extends Controller
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
-            WHERE p.name LIKE ?
+        WHERE p.name LIKE ?
         ',
             ['%' . $name . '%']
         );
