@@ -1,18 +1,10 @@
 import { useState } from "react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 import { router } from "@inertiajs/react";
-import { Check } from "lucide-react";
 
 export default function IndexObservations({ results, species }) {
     const [projectionFields, setProjectionFields] = useState([]);
-    const [selectionSpecies, setSelectionSpecies] = useState("");
-    const [selectionUpperBound, setSelectionUpperBound] = useState("");
-    const [selectionLowerBound, setSelectionLowerBound] = useState("");
-    const [selectionProfessional, setSelectionProfessional] = useState("");
-    const [speciesSearch, setSpeciesSearch] = useState("");
-    const [speciesSearchOpen, setSpeciesSearchOpen] = useState(false);
 
     const handleProjectionChange = (e) => {
         const value = e.target.value;
@@ -23,273 +15,173 @@ export default function IndexObservations({ results, species }) {
         );
     };
 
-    const handleSelectionSubmit = (e) => {
+    const handleProjectionSubmit = (e) => {
         e.preventDefault();
-        console.log({
-            species: selectionSpecies,
-            min: selectionUpperBound,
-            professionalOnly: selectionProfessional,
+        router.get(route("observation.search"), {
+            projection: projectionFields,
         });
     };
 
-    const handleProjectionSubmit = (e) => {
-        e.preventDefault();
-        console.log({ projection: projectionFields });
-    };
-
-    const filteredSpecies = species.filter((s) =>
-        s.commonName.toLowerCase().includes(speciesSearch.toLowerCase())
-    );
+    const selectionValues = [
+        {
+            value: "scientificName",
+            label: "Scientific Name",
+        },
+        {
+            value: "quantity",
+            label: "Quantity",
+        },
+        { value: "date", label: "Date" },
+        {
+            value: "dateConfirmed",
+            label: "Date Confirmed",
+        },
+        { value: "email", label: "Creator" },
+        {
+            value: "verifiedBy",
+            label: "Verified By",
+        },
+        {
+            value: "preciseLocation",
+            label: "Precise Location",
+        },
+        {
+            value: "location",
+            label: "Location",
+        },
+        { value: "notes", label: "Notes" },
+    ];
 
     return (
         <AppLayout>
             <div className="flex items-start justify-center min-h-screen p-6">
                 <div className="w-full max-w-2xl space-y-10">
-                    <div className="gap-4 p-8 space-y-4 bg-white border rounded-lg">
-                        <form onSubmit={handleSelectionSubmit}>
-                            <h2 className="pb-3 text-2xl font-bold">
-                                Selection Filters:
-                            </h2>
-
-                            <div className="pb-3">
-                                <label>Species involved:</label>
-                                <div>
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setSpeciesSearchOpen(
-                                                !speciesSearchOpen
-                                            )
-                                        }
-                                        className="flex items-center justify-between w-full px-3 py-2 text-sm border rounded-md bg-background hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
-                                    >
-                                        <span>
-                                            {selectionSpecies ||
-                                                "Select species..."}
-                                        </span>
-                                        <svg
-                                            className="w-4 h-4"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                                            />
-                                        </svg>
-                                    </button>
-
-                                    {speciesSearchOpen && (
-                                        <div className="absolute z-10 mt-1 overflow-auto bg-white border-2 rounded w-fit max-h-64">
-                                            <Input
-                                                placeholder="Search species..."
-                                                value={speciesSearch}
-                                                onChange={(e) =>
-                                                    setSpeciesSearch(
-                                                        e.target.value
-                                                    )
-                                                }
-                                                autoFocus
-                                                className="mb-1"
-                                            />
-                                            <div>
-                                                {filteredSpecies.length > 0 ? (
-                                                    filteredSpecies.map(
-                                                        (
-                                                            speciesInfo,
-                                                            index
-                                                        ) => (
-                                                            <button
-                                                                key={index}
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setSelectionSpecies(
-                                                                        speciesInfo.commonName
-                                                                    );
-                                                                    setSpeciesSearchOpen(
-                                                                        false
-                                                                    );
-                                                                    setSpeciesSearch(
-                                                                        ""
-                                                                    );
-                                                                }}
-                                                                className="flex items-center justify-between w-full px-2 py-1 hover:bg-accent"
-                                                            >
-                                                                <span>
-                                                                    {
-                                                                        speciesInfo.commonName
-                                                                    }
-                                                                </span>
-                                                                {selectionSpecies ===
-                                                                    speciesInfo.commonName && (
-                                                                    <Check className="w-4 h-4 text-green-600" />
-                                                                )}
-                                                            </button>
-                                                        )
-                                                    )
-                                                ) : (
-                                                    <p>No species found</p>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="pb-3">
-                                <label>Upper bound for quantity</label>
-                                <Input
-                                    type="number"
-                                    placeholder="Enter quantity..."
-                                    value={selectionUpperBound}
-                                    onChange={(e) =>
-                                        setSelectionUpperBound(e.target.value)
-                                    }
-                                />
-                            </div>
-                            <div className="pb-3">
-                                <label>Lower Bound for Quantity</label>
-                                <Input
-                                    type="number"
-                                    placeholder="Enter quantity..."
-                                    value={selectionLowerBound}
-                                    onChange={(e) =>
-                                        setSelectionLowerBound(e.target.value)
-                                    }
-                                />
-                            </div>
-
-                            <div>
-                                <label>Made by professional:</label>
-                                <div className="pb-5 space-x-3" >
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="professional"
-                                            value="yes"
-                                            checked={
-                                                selectionProfessional === "yes"
-                                            }
-                                            onChange={(e) =>
-                                                setSelectionProfessional(
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        Yes
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="professional"
-                                            value="no"
-                                            checked={
-                                                selectionProfessional === "no"
-                                            }
-                                            onChange={(e) =>
-                                                setSelectionProfessional(
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        No
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name="professional"
-                                            value=""
-                                            checked={
-                                                selectionProfessional === ""
-                                            }
-                                            onChange={(e) =>
-                                                setSelectionProfessional(
-                                                    e.target.value
-                                                )
-                                            }
-                                        />
-                                        Any
-                                    </label>
-                                </div>
-                                <Button>Search</Button>
-                            </div>
-                        </form>
-                    </div>
-
-
-
                     <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg">
                         <form onSubmit={handleProjectionSubmit}>
-                            <h2 className="pb-3 text-2xl font-bold">
-                                Observations:
-                            </h2>
-
                             <div className="p-3 space-y-3 border rounded-lg">
-                                <h2 className="text-lg font-bold">Projection Fields:</h2>
-                                <div className="space-x-3">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        value="scientificName"
-                                        checked={projectionFields.includes(
-                                            "scientificName"
-                                        )}
-                                        onChange={handleProjectionChange}
-                                    />
-                                    Scientific Name
-                                </label>
+                                <h2 className="text-lg font-bold">
+                                    Projection Fields:
+                                </h2>
 
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        value="quantity"
-                                        checked={projectionFields.includes(
-                                            "quantity"
-                                        )}
-                                        onChange={handleProjectionChange}
-                                    />
-                                    Quantity
-                                </label>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        value="date"
-                                        checked={projectionFields.includes(
-                                            "date"
-                                        )}
-                                        onChange={handleProjectionChange}
-                                    />
-                                    Date
-                                </label>
-                            </div>
+                                <div className="flex flex-wrap gap-4">
+                                    {selectionValues.map((field) => (
+                                        <label key={field.value}>
+                                            <input
+                                                type="checkbox"
+                                                className="rounded-xl"
+                                                value={field.value}
+                                                checked={projectionFields.includes(
+                                                    field.value
+                                                )}
+                                                onChange={
+                                                    handleProjectionChange
+                                                }
+                                            />
+                                            {field.label}
+                                        </label>
+                                    ))}
+                                </div>
 
-                            <Button type="submit">
-                                Filter for these values
-                            </Button>
+                                <Button type="submit">
+                                    Filter for these values
+                                </Button>
                             </div>
                         </form>
 
-                        {results.map((observation) => (
-                            <div key={observation.observationID}
-                            className="flex items-center justify-between p-3 space-y-1 border rounded-lg">
-                                <p><span className="font-bold">Name:</span> {observation.scientificName}</p>
-                                <p><span className="font-bold">Quantity:</span> {observation.quantity}</p>
-                                <Button
-                                    onClick={() =>
-                                        router.get(
-                                            route("observation.show", {
-                                                id: observation.observationID,
-                                            })
-                                        )
-                                    }
+                        {results.map((observation) => {
+                            return (
+                                <div
+                                    key={observation.observationID}
+                                    className="flex flex-col p-3 space-y-1 border rounded-lg"
                                 >
-                                    View Observation
-                                </Button>
-                            </div>
-                        ))}
+                                    {observation.scientificName && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Scientific Name:{" "}
+                                                {observation.scientificName}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.quantity && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Quantity: {observation.quantity}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.date && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Date: {observation.date}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.dateConfirmed && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Date Confirmed:
+                                                {observation.dateConfirmed}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.email && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Email:{observation.email}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.professionalEmail && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Verified By:
+                                                {observation.professionalEmail}
+                                            </span>
+                                        </p>
+                                    )}
+                                    {observation.latitude &&
+                                        observation.longitude && (
+                                            <p>
+                                                <span className="font-bold">
+                                                    Precise Location: (
+                                                    {observation.longitude},{" "}
+                                                    {observation.latitude})
+                                                </span>
+                                            </p>
+                                        )}
+                                    {observation.meanLatitude &&
+                                        observation.meanLongitude && (
+                                            <p>
+                                                <span className="font-bold">
+                                                    Location: {observation.name}{" "}
+                                                    ({observation.meanLongitude}
+                                                    , {observation.meanLatitude}
+                                                    )
+                                                </span>
+                                            </p>
+                                        )}
+                                    {observation.notes && (
+                                        <p>
+                                            <span className="font-bold">
+                                                Notes:{observation.notes}
+                                            </span>
+                                        </p>
+                                    )}
+
+                                    <Button
+                                        onClick={() =>
+                                            router.get(
+                                                route("observation.show", {
+                                                    id: observation.observationID,
+                                                })
+                                            )
+                                        }
+                                    >
+                                        View Observation
+                                    </Button>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

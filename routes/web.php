@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExtrasController;
 use App\Http\Controllers\GroupChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MilestoneController;
@@ -46,7 +47,7 @@ Route::get('/create-project', [ProjectController::class, 'create'])->name("proje
 Route::post('/store-project', [ProjectController::class, 'store'])->name("project.store")->middleware(CheckProfessionalMiddleware::class);
 Route::get('/projects', [ProjectController::class, 'index'])->name("project.index");
 Route::get('/project/{id}', [ProjectController::class, 'show'])->name("project.show");
-Route::get('/hidden-gems', [ProfessionalController::class, 'indexGems'])->name("projects.gems");
+Route::get('/hidden-gems', [ExtrasController::class, 'indexGems'])->name("projects.gems");
 
 Route::get('/milestone', [MilestoneController::class, "index"])->name("milestone.index");
 Route::post('/milestonestore', [MilestoneController::class, "update"])->name("milestone.update");

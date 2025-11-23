@@ -11,6 +11,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Date;
 use Inertia\Inertia;
 
+use function PHPUnit\Framework\isArray;
+
 class ObservationController extends Controller
 {
     public function create()
@@ -95,12 +97,82 @@ class ObservationController extends Controller
     }
 
 
-    public function search()
+    public function search(Request $request)
     {
-        $observations = DB::select("SELECT * FROM observation");
-        $species = DB::select('SELECT * from species');
+        $allowedFields = [
+            "scientificName",
+            "quantity",
+            "date",
+            "dateConfirmed",
+            "email",
+            "professionalEmail",
+            "latitude",
+            "longitude",
+            "meanLatitude",
+            "meanLongitude",
+            "notes"
+        ];
 
-        return Inertia::render("Observation/IndexObservations", ["results" => $observations, "species" => $species]);
+        $alias_to_feild_map  = [
+            "scientificName"    => "scientificName",
+            "quantity"          => "quantity",
+            "date"              => "date",
+            "dateConfirmed"     => "dateConfirmed",
+            "email"             => "email",
+            "verifiedBy"        => "professionalEmail",
+            "preciseLocation"   => ["latitude", "longitude"],
+            "location"          => ["meanLatitude", "meanLongitude"],
+            "notes"             => "notes",
+        ];
+
+        $projection = $request->input('projection', []);
+        $wanted_feilds = [];
+
+
+
+
+
+        foreach ($projection as $feild) {
+            $value = $alias_to_feild_map[$feild];
+            if (is_array($value)) {
+                foreach ($value as $label) {
+                    $wanted_feilds[] = $label;
+                }
+            } else {
+                $wanted_feilds[] = $alias_to_feild_map[$feild];
+            }
+        }
+
+
+        if (empty($wanted_feilds)) {
+            $wanted_feilds = $allowedFields;
+        }
+
+        $wanted_feilds[] = "observationID";
+
+        $need_location_name = in_array("meanLongitude", $wanted_feilds);
+
+        if ($need_location_name) {
+
+            foreach ($wanted_feilds as &$feild) {
+                $feild = "o." . $feild;
+            }
+            $fieldsString = implode(", ", $wanted_feilds);
+
+            $observations = DB::select(
+                "SELECT $fieldsString, l.name
+                            FROM observation o
+                            JOIN location l ON l.meanLatitude = o.meanLatitude AND l.meanLongitude = o.meanLongitude"
+            );
+        } else {
+            $fieldsString = implode(", ", $wanted_feilds);
+
+            $observations = DB::select("SELECT $fieldsString FROM observation");
+        }
+
+        return Inertia::render("Observation/IndexObservations", [
+            "results" => $observations
+        ]);
     }
 
     public function select() {}
@@ -136,7 +208,6 @@ class ObservationController extends Controller
 
     public function edit(int $id)
     {
-        // dd($id);
 
         $observation = DB::select('SELECT * FROM observation o WHERE o.observationID=?', [$id]);
         $locations = DB::select('SELECT * from location');
