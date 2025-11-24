@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -16,93 +15,135 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         // dd($request);
-        $filters = $request->input("filters", []);
+        $filters = $request->input('filters', []);
 
-        $name = $filters["name"] ?? "";
-        $species = $filters["species"] ?? 0;
-        $observations = $filters["observations"] ?? 0;
-        $contributors = $filters["contributors"] ?? 0;
+        $name = $filters['name'] ?? '';
+        $species = (int) ($filters['species'] ?? 0);
+        $observations = (int) ($filters['observations'] ?? 0);
+        $contributors = (int) ($filters['contributors'] ?? 0);
 
         // dd($name, $species, $observations, $contributors);
         // $ = $filters["name"];
         // dd($name);
         $isProfessional = UserService::isProfessional();
+
         $projectObservations = DB::select(
             'SELECT p.projectID, p.name AS projectName, p.description, o.observationID, o.notes
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
-        WHERE p.name LIKE ?
+            WHERE p.name LIKE ?
+                AND p.projectID IN (
+                    SELECT p.projectID
+                    FROM project p
+                    LEFT JOIN project_user pu ON p.projectID = pu.projectID
+                    GROUP BY p.projectID
+                    HAVING COUNT(pu.email) >= ?
+                )
+                AND p.projectID IN (
+                    SELECT p.projectID
+                    FROM project p
+                    LEFT JOIN project_observation po ON po.projectID = p.projectID
+                    GROUP BY p.projectID
+                    HAVING COUNT(po.observationID) >= ?
+                )
+                AND p.projectID IN (
+                    SELECT p.projectID
+                    FROM project p
+                    LEFT JOIN project_observation po ON po.projectID = p.projectID
+                    LEFT JOIN observation o ON o.observationID = po.observationID
+                    GROUP BY p.projectID
+                    HAVING COUNT(DISTINCT o.scientificName) >= ?
+                )
         ',
-            ['%' . $name . '%']
+            ['%'.$name.'%', $contributors, $observations, $species]
         );
-        // dd($projectObservations);
+
         $projectObservationCount = DB::select(
-            'SELECT p.projectID, COUNT(*) as observationCount
+            'SELECT p.projectID, COUNT(o.observationID) as observationCount
             FROM project p
             LEFT JOIN project_observation po ON p.projectID = po.projectID
             LEFT JOIN observation o ON o.observationID = po.observationID
             WHERE p.projectID IN (SELECT p.projectID
-                    FROM project p
-                    LEFT JOIN project_observation po ON p.projectID = po.projectID
-                    LEFT JOIN observation o ON o.observationID = po.observationID
-                    WHERE p.name LIKE ?
-
+                FROM project p
+                LEFT JOIN project_observation po ON p.projectID = po.projectID
+                LEFT JOIN observation o ON o.observationID = po.observationID
+                WHERE p.name LIKE ?
+                    AND p.projectID IN (
+                        SELECT p.projectID
+                        FROM project p
+                        LEFT JOIN project_user pu ON p.projectID = pu.projectID
+                        GROUP BY p.projectID
+                        HAVING COUNT(pu.email) >= ?
+                    )
+                    AND p.projectID IN (
+                        SELECT p.projectID
+                        FROM project p
+                        LEFT JOIN project_observation po ON po.projectID = p.projectID
+                        GROUP BY p.projectID
+                        HAVING COUNT(po.observationID) >= ?
+                    )
+                    AND p.projectID IN (
+                        SELECT p.projectID
+                        FROM project p
+                        LEFT JOIN project_observation po ON po.projectID = p.projectID
+                        LEFT JOIN observation o ON o.observationID = po.observationID
+                        GROUP BY p.projectID
+                        HAVING COUNT(DISTINCT o.scientificName) >= ?
+                    )
                 )
             GROUP BY p.projectID
         ',
-            ['%' . $name . '%']
+            ['%'.$name.'%', $contributors, $observations, $species]
 
         );
         $projects = [];
 
-
         foreach ($projectObservations as $projectObservation) {
             $projectID = $projectObservation->projectID;
 
-            if (!isset($projects[$projectID])) {
+            if (! isset($projects[$projectID])) {
                 $projects[$projectID] = [
                     'projectID' => $projectID,
                     'projectName' => $projectObservation->projectName,
                     'description' => $projectObservation->description,
-                    'observations' => []
+                    'observations' => [],
                 ];
             }
 
             if ($projectObservation->observationID) {
                 $projects[$projectID]['observations'][] = [
                     'observationID' => $projectObservation->observationID,
-                    'notes' => $projectObservation->notes
+                    'notes' => $projectObservation->notes,
                 ];
             }
         }
 
         foreach ($projectObservationCount as $idCount) {
-            $projects[$idCount->projectID]["observationCount"] =
+            $projects[$idCount->projectID]['observationCount'] =
                 $idCount->observationCount;
         }
+        // dd($projects);
 
-
-        return Inertia::render("Project/IndexProjects", [
+        return Inertia::render('Project/IndexProjects', [
             'isProfessional' => $isProfessional,
-            'projects' => $projects
+            'projects' => $projects,
         ]);
     }
 
     public function create()
     {
-        return Inertia::render("Project/CreateProject");
+        return Inertia::render('Project/CreateProject');
     }
-
 
     public function store(Request $request)
     {
-        $name = $request->input("name");
-        $description = $request->input("desc");
+        $name = $request->input('name');
+        $description = $request->input('desc');
         DB::insert('INSERT INTO project (name, description) VALUES (?, ?)', [$name, $description]);
         $projectID = DB::getPdo()->lastInsertId();
 
-        return redirect()->route("project.show", $projectID);
+        return redirect()->route('project.show', $projectID);
     }
 
     /**
@@ -124,10 +165,10 @@ class ProjectController extends Controller
             [$projectID]
         );
 
-        return Inertia::render("Project/ShowProject", [
+        return Inertia::render('Project/ShowProject', [
             'name' => $project->name,
             'description' => $project->description,
-            'observations' => $observations
+            'observations' => $observations,
         ]);
     }
 }
