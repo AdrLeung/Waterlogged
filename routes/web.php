@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExtrasController;
 use App\Http\Controllers\GroupChatController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ObservationController;
@@ -32,7 +33,7 @@ Route::post('/delete-message/{id}', [MessageController::class, "delete"])->name(
 Route::get('/create-observation', [ObservationController::class, "create"])->name("observation.create")->middleware('auth');
 Route::post('/store-observation', [ObservationController::class, "store"])->name("observation.store")->middleware('auth');
 Route::get('/search-observations', [ObservationController::class, "search"])->name("observation.search");
-// Route::get('/select-observations', [ObservationController::class, "select"])->name("observation.search");
+
 Route::get('/observation/{id}', [ObservationController::class, "show"])->name("observation.show");
 Route::post('/verify-observation/{id}', [ObservationController::class, "verify"])->name("observation.verify");
 Route::get('/edit-observation/{id}', [ObservationController::class, "edit"])->name("observation.edit");
@@ -59,9 +60,9 @@ Route::get('/users', [ProfessionalController::class, "index"])->name("users.inde
 Route::post('/promote-user/{email}', [ProfessionalController::class, "promote"])->name("users.promote")->middleware(CheckProfessionalMiddleware::class);
 Route::delete('/demote-professional/{email}', [ProfessionalController::class, "demote"])->name("professional.demote")->middleware(CheckProfessionalMiddleware::class);
 Route::post('/update-credentials', [ProfessionalController::class, "update"])->name("professional.update");
-Route::get('/super-users', [UserController::class, "indexSuper"])->name("users.super");
 
 
+Route::post('/store-location', [LocationController::class, "store"])->name("location.store");
 
 Route::get('/make-prof', [ProfessionalController::class, "promoteSelf"])->name("makeMeProf");
 

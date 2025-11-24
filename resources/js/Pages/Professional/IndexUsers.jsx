@@ -23,8 +23,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
-
+} from "@/components/ui/card";
 
 export default function IndexUsers({
     professionals,
@@ -36,6 +35,12 @@ export default function IndexUsers({
     const { addToast } = useToast();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isLocationDialogOpen, setisLocationDialogOpen] = useState(false);
+
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [name, setName] = useState("");
+
     const [degree, setDegree] = useState(usersProfessionalInfo.degree || "");
     const [certification, setCertification] = useState(
         usersProfessionalInfo.certification || ""
@@ -54,6 +59,15 @@ export default function IndexUsers({
                 },
             }
         );
+    };
+
+    const createLocation = () => {
+        router.post(route("location.store"), {
+            name: name,
+            latitude: latitude,
+            longitude: longitude,
+        });
+        setIsDialogOpen(false);
     };
 
     const handleUpdateCredentials = () => {
@@ -99,8 +113,8 @@ export default function IndexUsers({
                         <DialogHeader>
                             <DialogTitle>Update My Credentials</DialogTitle>
                             <DialogDescription>
-                                Edit your degree, certification, and specialization
-                                information.
+                                Edit your degree, certification, and
+                                specialization information.
                             </DialogDescription>
                         </DialogHeader>
 
@@ -117,7 +131,9 @@ export default function IndexUsers({
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <Label htmlFor="certification">Certification</Label>
+                                <Label htmlFor="certification">
+                                    Certification
+                                </Label>
                                 <Input
                                     id="certification"
                                     type="text"
@@ -156,6 +172,65 @@ export default function IndexUsers({
                     </DialogContent>
                 </Dialog>
 
+                <Dialog
+                    open={isLocationDialogOpen}
+                    onOpenChange={setisLocationDialogOpen}
+                >
+                    <DialogTrigger asChild>
+                        <Button className="mb-4">Add New Location </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Create New Location</DialogTitle>
+                        </DialogHeader>
+
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="Longitude">Longitude</Label>
+                                <Input
+                                    id="Longitude"
+                                    type="number"
+                                    value={longitude}
+                                    onChange={(e) =>
+                                        setLongitude(e.target.value)
+                                    }
+                                    placeholder="Longitude"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="Latitude">Latitude</Label>
+                                <Input
+                                    id="Latitude"
+                                    type="number"
+                                    value={latitude}
+                                    onChange={(e) =>
+                                        setLatitude(e.target.value)
+                                    }
+                                    placeholder="Longitude"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="Enter your specialization"
+                                />
+                            </div>
+                        </div>
+
+                        <DialogFooter>
+                            <Button onClick={createLocation} className="w-full">
+                                Submit
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
                 <div className="flex gap-4 mb-4">
                     <Card className="w-full max-h-[400px] overflow-auto">
                         <CardTitle className="pl-4 mt-4 mb-4">
@@ -174,7 +249,6 @@ export default function IndexUsers({
                                             <p>{professional.specialization}</p>
                                         </div>
                                     </CardDescription>
-                                    
                                 </Card>
                             ))}
                         </CardDescription>
@@ -189,7 +263,9 @@ export default function IndexUsers({
                                     <p>{user.username}</p>
                                     <Button
                                         className="overflow-visible bg-green-800"
-                                        onClick={() => makeProfessional(user.email)}
+                                        onClick={() =>
+                                            makeProfessional(user.email)
+                                        }
                                     >
                                         Promote
                                     </Button>
