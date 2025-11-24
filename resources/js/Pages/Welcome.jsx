@@ -7,6 +7,12 @@ export default function Welcome() {
 
     return (
         <AppLayout>
+            <Button
+                onClick={() => router.get(route("observation.create"))}
+                className="fixed p-5 bottom-10 right-10"
+            >
+                Create Observation
+            </Button>
             <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] ">
                 <div className="justify-between w-full max-w-md p-8 space-x-6 space-y-6 text-center bg-white shadow-md rounded-2xl">
                     <h1 className="text-2xl font-bold text-gray-800">

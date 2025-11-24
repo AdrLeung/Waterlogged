@@ -61,7 +61,8 @@ export default function ShowGroupChat({
 
     return (
         <AppLayout>
-            <Card className="w-1/2 mx-auto">
+            <div className="py-10">
+            <Card className="w-1/2 py-5 mx-auto">
                 <CardTitle>
                     <p className="text-3xl font-semibold text-center">
                         {groupInfo.name}
@@ -124,6 +125,7 @@ export default function ShowGroupChat({
                 </CardContent>
                 <div ref={messagesEndRef} />
             </Card>
+            </div>
         </AppLayout>
     );
 }
