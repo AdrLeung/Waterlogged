@@ -7,31 +7,28 @@ export default function Welcome() {
 
     return (
         <AppLayout>
-            <Button
-                onClick={() => router.get(route("observation.create"))}
-                className="fixed p-5 bottom-10 right-10"
-            >
-                Create Observation
-            </Button>
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] ">
-                <div className="justify-between w-full max-w-md p-8 space-x-6 space-y-6 text-center bg-white shadow-md rounded-2xl">
-                    <h1 className="text-2xl font-bold text-gray-800">
-                        Welcome, {auth.user?.name || "Guest"}
+            <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
+            <h1 className="p-6 text-5xl font-bold text-gray-800 bg-white border-solid rounded-full">
+                        Hello {auth.user?.name || "Guest"}, Welcome to Water Logged
                     </h1>
-
+                <div className="justify-between w-full max-w-md p-8 text-center bg-white rounded-2xl ">
+                <h1 className="pb-4 text-2xl font-bold text-gray-800">
+                        Where Will the Tide Take you Next
+                    </h1>
+                    <div className="grid grid-cols-1 gap-4">
                     <Button
                         onClick={() => router.get(route("groupChat.index"))}
                     >
-                        List Group Chats
+                        View Group Chats
                     </Button>
 
                     <Button onClick={() => router.get(route("project.index"))}>
-                        Index Projects
+                        View Projects
                     </Button>
                     <Button
                         onClick={() => router.get(route("observation.search"))}
                     >
-                        View All Observations
+                        Search Observations
                     </Button>
 
                     <Button onClick={() => router.get(route("users.index"))}>
@@ -41,6 +38,7 @@ export default function Welcome() {
                     <Button onClick={() => router.get(route("projects.gems"))}>
                         Hidden Gems
                     </Button>
+                    </div>
                 </div>
             </div>
         </AppLayout>
