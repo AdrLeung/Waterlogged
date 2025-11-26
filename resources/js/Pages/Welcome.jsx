@@ -46,7 +46,7 @@ export default function Welcome({ isProfessional }) {
                         <Button
                             onClick={() => router.get(route("projects.gems"))}
                         >
-                            Hidden Gems
+                            Hidden Pearls
                         </Button>
                     </div>
                 </div>
