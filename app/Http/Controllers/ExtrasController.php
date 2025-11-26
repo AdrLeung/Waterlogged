@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -59,5 +60,12 @@ class ExtrasController extends Controller
             "superUsers" => $superUsers,
             "greatUsers" => $great_users
         ]);
+    }
+
+
+    public function welcome()
+    {
+        $isProfessional = UserService::isProfessional();
+        return Inertia::render("Welcome", ["isProfessional" => $isProfessional]);
     }
 }
