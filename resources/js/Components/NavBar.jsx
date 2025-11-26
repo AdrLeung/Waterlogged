@@ -9,13 +9,15 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 bg-opacity-95 backdrop-blur-md dark:bg-slate-900 dark:border-slate-700 dark:bg-opacity-95">
+        <nav className="sticky top-0 z-50 w-full bg-white border-b border-slate-200 backdrop-blur-md dark:bg-slate-900 dark:border-slate-700 dark:bg-opacity-95">
             <div className="container flex items-center justify-between h-16 px-4 mx-auto">
                 <Link
                     href="/"
                     className="flex items-center gap-2 text-xl font-bold text-primary sm:text-2xl"
                 >           
                     <span className="xs:hidden">Waterlogged</span>
+                    <img src="\images\waterlogged.png" width="60" className="inline-block ml-2 align-middle"/>
+                    
                 </Link>
                 <div className="items-center hidden space-x-4 md:flex">
                     <AuthButton />
