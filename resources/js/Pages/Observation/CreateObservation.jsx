@@ -125,17 +125,25 @@ export default function CreateObservation({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        if(!(form.latitude < 180 && form.latitude > -180)){
+            addToast("Latitude must be in the range of -180 - 180", "error");
+        } else if (form.species == null) {
+            addToast("Please add a species", "error");
+        } else if (form.quantity == null) {
+            addToast("Please add a quantity", "error");
+        } else if (form.meanLatitude == null || form.meanLongitude == null) {
+            addToast("please add locatation variables", "error");
+        } else {
         router.post(
             route("observation.store", form),
             {},
             {
                 onSuccess: addToast(
-                    "Observation successfully created!",
-                    "success"
+                    "Observation successfully created!","success"
                 ),
             }
         );
+    }
     };
 
     const selectedProjectNames = projects
