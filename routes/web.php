@@ -11,13 +11,12 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SpeciesController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckProfessionalMiddleware;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name("welcome");
+Route::get('/', [ExtrasController::class, "welcome"])->name("welcome");
 
 Route::get('/create-group-chat', [GroupChatController::class, "create"])->name("groupChat.create");
 Route::post('/store-group-chat', [GroupChatController::class, "store"])->name("groupChat.store");

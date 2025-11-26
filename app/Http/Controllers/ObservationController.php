@@ -161,8 +161,8 @@ class ObservationController extends Controller
 
             $observations = DB::select(
                 "SELECT $fieldsString, l.name
-                            FROM observation o
-                            JOIN location l ON l.meanLatitude = o.meanLatitude AND l.meanLongitude = o.meanLongitude"
+                    FROM observation o
+                    JOIN location l ON l.meanLatitude = o.meanLatitude AND l.meanLongitude = o.meanLongitude"
             );
         } else {
             $fieldsString = implode(", ", $wanted_feilds);
