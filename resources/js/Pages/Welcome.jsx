@@ -9,8 +9,9 @@ export default function Welcome({ isProfessional }) {
     return (
         <AppLayout>
             <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
-                <h1 className="p-6 text-5xl font-bold text-gray-800 bg-white border-solid rounded-full">
-                    Hello {auth.user?.name || "Guest"}, Welcome to Water Logged
+                <h1 className="p-8 text-5xl font-bold text-gray-800 bg-white border-solid rounded-full">
+                    Hello {auth.user?.name || "Guest"}, Welcome to Waterlogged
+                    <img src="\images\waterlogged.png" width="150" className="inline-block ml-2 align-middle"/>
                 </h1>
                 <div className="justify-between w-full max-w-md p-8 text-center bg-white rounded-2xl ">
                     <h1 className="pb-4 text-2xl font-bold text-gray-800">
