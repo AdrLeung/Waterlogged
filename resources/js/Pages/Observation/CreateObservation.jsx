@@ -83,7 +83,9 @@ export default function CreateObservation({
     };
 
     const addNewSpecies = () => {
-        if (!newSpecies.scientificName || !newSpecies.genus) {
+        if (newSpecies.scientificName == "" || newSpecies.genus == "") {
+            addToast("Please add all of the new species data", "error");
+        } else {if (!newSpecies.scientificName || !newSpecies.genus) {
             return;
         }
 
@@ -109,6 +111,7 @@ export default function CreateObservation({
             genus: "",
         });
         setShowNewSpecies(false);
+    }
     };
 
     const handleProjectToggle = (projectId) => {
