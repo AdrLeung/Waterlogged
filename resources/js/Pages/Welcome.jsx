@@ -15,7 +15,7 @@ export default function Welcome({ isProfessional }) {
                 </h1>
                 <div className="justify-between w-full max-w-md p-8 text-center bg-white rounded-2xl ">
                     <h1 className="pb-4 text-2xl font-bold text-gray-800">
-                        Where Will the Tide Take you Next
+                        Where will the tide take you next?
                     </h1>
                     <div className="grid grid-cols-1 gap-4">
                         <Button
