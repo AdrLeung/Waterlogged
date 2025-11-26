@@ -33,7 +33,7 @@ export default function ShowGroupChat({
             prevMessages.filter((msg) => msg.ID !== messageId)
         );
 
-        addToast("i peed myself", "success");
+        addToast("Message Deleted", "success");
 
         router.post(route("message.delete", messageId));
     };
