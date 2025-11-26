@@ -282,6 +282,7 @@ export default function CreateObservation({
                                     </SelectContent>
                                 </Select>
 
+                                <div className = "py-1">
                                 <Button
                                     type="button"
                                     variant="outline"
@@ -293,6 +294,7 @@ export default function CreateObservation({
                                         ? "Cancel"
                                         : "+ Add New Species"}
                                 </Button>
+                                </div>
 
                                 {showNewSpecies && (
                                     <div className="p-3 mt-2 space-y-2 border rounded-xl">

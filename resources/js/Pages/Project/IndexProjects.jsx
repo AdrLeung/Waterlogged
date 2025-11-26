@@ -78,7 +78,7 @@ export default function IndexProjects({ isProfessional, projects }) {
                     </div>
                 </div>
 
-                <div className="ml-4">
+                <div className="px-1 space-x-3">
                     {isProfessional && <CreateProjectDialog />}
                     {auth.user && (
                         <Button

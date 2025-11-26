@@ -17,7 +17,7 @@ export function CreateProjectDialog() {
     const [desc, setDesc] = useState("");
 
     const handleSubmit = () => {
-        router.post(route("project.store", { name: name, desc: desc }));
+            router.post(route("project.store", { name: name, desc: desc }));
     };
 
     return (
@@ -42,7 +42,7 @@ export function CreateProjectDialog() {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div className="pb-2">
                         <label htmlFor="desc">Description</label>
                         <Input
                             id="desc"
@@ -51,7 +51,7 @@ export function CreateProjectDialog() {
                             onChange={(e) => setDesc(e.target.value)}
                         />
                     </div>
-                    <div>
+                    <div className="space-x-2">
                         <Button
                             variant="outline"
                             onClick={() => setOpen(false)}
