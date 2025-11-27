@@ -10,14 +10,20 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { router } from "@inertiajs/react";
+import { useToast } from "@/Contexts/ToastContext";
 
 export function CreateGroupChatDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const { addToast } = useToast();
 
     const handleSubmit = () => {
-        router.post(route("groupChat.store", { groupChatName: name }));
+        if (name == "") {
+            addToast("Please name your groupchat", "error");
+        } else {
+         router.post(route("groupChat.store", { groupChatName: name }));
+        }
     };
 
     return (
@@ -43,7 +49,7 @@ export function CreateGroupChatDialog() {
                         />
                     </div>
 
-                    <div className="pt-2">
+                    <div className="pt-2 space-x-1">
                         <Button
                             variant="outline"
                             onClick={() => setOpen(false)}
