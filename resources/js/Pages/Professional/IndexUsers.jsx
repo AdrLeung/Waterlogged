@@ -55,19 +55,28 @@ export default function IndexUsers({
             {},
             {
                 onSuccess: () => {
-                    addToast("user successfully promoted", "error");
+                    addToast("user successfully promoted", "success");
                 },
             }
         );
     };
 
     const createLocation = () => {
+        if (latitude == null || longitude == null || name == "") {
+            addToast("Please Enter all Location Information", "error");
+        } else if(!(latitude < 90 && latitude > -90)){
+            addToast("Latitude must be in the range of -90 - 90", "error");
+        } else if (!(longitude < 180 && longitude > -180)) {
+            addToast("Longitude must be in the range of -180 - 180", "error");
+        } else {
         router.post(route("location.store"), {
             name: name,
             latitude: latitude,
             longitude: longitude,
         });
-        setIsDialogOpen(false);
+        addToast("New Location Created", "success");
+        router.get(route("users.index"));
+    }
     };
 
     const handleUpdateCredentials = () => {
@@ -218,7 +227,7 @@ export default function IndexUsers({
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="Enter your specialization"
+                                    placeholder="Enter Location Name"
                                 />
                             </div>
                         </div>

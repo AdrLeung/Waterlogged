@@ -10,14 +10,20 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { router } from "@inertiajs/react";
+import { useToast } from "@/Contexts/ToastContext";
 
 export function CreateProjectDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
+    const { addToast } = useToast();
 
     const handleSubmit = () => {
+        if (name == "" || desc == "") {
+            addToast("Please Enter all Project Details", "error");
+        } else {
             router.post(route("project.store", { name: name, desc: desc }));
+        }
     };
 
     return (
