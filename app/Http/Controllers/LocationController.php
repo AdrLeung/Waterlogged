@@ -24,5 +24,6 @@ class LocationController extends Controller
             $latitude,
             $longitude
         ]);
+        return redirect()->route("users.index");
     }
 }

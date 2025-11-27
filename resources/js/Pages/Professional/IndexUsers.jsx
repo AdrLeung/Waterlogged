@@ -29,8 +29,10 @@ export default function IndexUsers({
     professionals,
     users,
     usersProfessionalInfo,
+    locations,
 }) {
     usersProfessionalInfo = usersProfessionalInfo[0];
+    console.log(locations);
 
     const { addToast } = useToast();
 
@@ -62,12 +64,26 @@ export default function IndexUsers({
     };
 
     const createLocation = () => {
+        for (const location of locations) {
+            if (
+                location.meanLongitude == longitude &&
+                location.meanLatitude == latitude
+            ) {
+                setisLocationDialogOpen(false);
+
+                addToast(
+                    "Cannot create location with same longitude and lattitude as existing location.",
+                    "error"
+                );
+                return;
+            }
+        }
         router.post(route("location.store"), {
             name: name,
             latitude: latitude,
             longitude: longitude,
         });
-        setIsDialogOpen(false);
+        setisLocationDialogOpen(false);
     };
 
     const handleUpdateCredentials = () => {

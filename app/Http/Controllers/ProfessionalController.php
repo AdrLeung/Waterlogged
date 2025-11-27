@@ -32,6 +32,7 @@ class ProfessionalController extends Controller
                 from professional p)'
         );
         // dd($professionals);
+        $locations = DB::select("SELECT * FROM location");
 
         $usersProfessionalInfo = DB::select(
             'SELECT *
@@ -44,7 +45,8 @@ class ProfessionalController extends Controller
         return Inertia::render("Professional/IndexUsers", [
             "professionals" => $professionals,
             "users" => $users,
-            "usersProfessionalInfo" => $usersProfessionalInfo
+            "usersProfessionalInfo" => $usersProfessionalInfo,
+            "locations" => $locations
         ]);
     }
 
