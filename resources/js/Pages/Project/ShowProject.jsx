@@ -13,11 +13,24 @@ export default function ShowProject({ name, description, observations }) {
                 <div className="justify-between w-full max-w-md p-8 space-y-3 text-center bg-white rounded-2xl">
             <p className="text-2xl font-extrabold">Project Name: {name}</p>
             <p>Description: {description}</p>
-            <ul>
+            <div className="p-2 border shadow-lg rounded-xl">
+                <h1 className="pb-3 text-lg font-bold">Observations</h1>
+            <ul className="flex-col space-y-3">
                 {observations.map((obs) => (
-                    <li key={obs.observationID}>{obs.notes}</li>
+                    <li key={obs.observationID}>{obs.notes}
+                    <br />
+                                    <Button
+                                        onClick={() =>
+                                            router.get(
+                                                route("observation.show", {
+                                                    id: obs.observationID,
+                                                }))}>
+                                        View
+                                    </Button>
+                    </li>
                 ))}
             </ul>
+            </div>
 
             <div className="grid grid-cols-1 gap-4">
                         <Button

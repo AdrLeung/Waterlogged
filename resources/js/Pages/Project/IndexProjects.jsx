@@ -141,6 +141,13 @@ export default function IndexProjects({ isProfessional, projects }) {
                                             >
                                                 Contribute
                                             </AlertDialogAction>
+                                            <AlertDialogAction
+                                                onClick={() =>
+                                                    router.get(route("project.show", {"id" : project.projectID}))
+                                                }
+                                            >
+                                                Go to Project
+                                            </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
