@@ -83,7 +83,9 @@ export default function CreateObservation({
     };
 
     const addNewSpecies = () => {
-        if (!newSpecies.scientificName || !newSpecies.genus) {
+        if (newSpecies.scientificName == "" || newSpecies.genus == "") {
+            addToast("Please add all of the new species data", "error");
+        } else {if (!newSpecies.scientificName || !newSpecies.genus) {
             return;
         }
 
@@ -109,6 +111,7 @@ export default function CreateObservation({
             genus: "",
         });
         setShowNewSpecies(false);
+    }
     };
 
     const handleProjectToggle = (projectId) => {
@@ -125,14 +128,18 @@ export default function CreateObservation({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!(form.latitude < 180 && form.latitude > -180)){
-            addToast("Latitude must be in the range of -180 - 180", "error");
-        } else if (form.species == null) {
-            addToast("Please add a species", "error");
-        } else if (form.quantity == null) {
+        if(!(form.latitude < 90 && form.latitude > -90)){
+            addToast("Latitude must be in the range of -90 - 90", "error");
+        } else if (!(form.longitude < 180 && form.longitude > -180)) {
+            addToast("Longitude must be in the range of -180 - 180", "error");
+        } else if (form.latitude == 0 || form.longitude == 0) {
+            addToast("Please add location variables", "error");
+        } else if (form.meanLatitude == 0 || form.meanLongitude == 0) {
+            addToast("Please select a general Location", "error");
+        } else if (form.quantity == 0) {
             addToast("Please add a quantity", "error");
-        } else if (form.meanLatitude == null || form.meanLongitude == null) {
-            addToast("please add locatation variables", "error");
+        } else if (form.scientificName == "") {
+            addToast("Please select a species", "error");
         } else {
         router.post(
             route("observation.store", form),
@@ -275,6 +282,7 @@ export default function CreateObservation({
                                     </SelectContent>
                                 </Select>
 
+                                <div className = "py-1">
                                 <Button
                                     type="button"
                                     variant="outline"
@@ -286,6 +294,7 @@ export default function CreateObservation({
                                         ? "Cancel"
                                         : "+ Add New Species"}
                                 </Button>
+                                </div>
 
                                 {showNewSpecies && (
                                     <div className="p-3 mt-2 space-y-2 border rounded-xl">

@@ -57,32 +57,42 @@ export default function IndexUsers({
             {},
             {
                 onSuccess: () => {
-                    addToast("user successfully promoted", "error");
+                    addToast("user successfully promoted", "success");
                 },
             }
         );
     };
 
     const createLocation = () => {
-        for (const location of locations) {
-            if (
-                location.meanLongitude == longitude &&
-                location.meanLatitude == latitude
-            ) {
-                setisLocationDialogOpen(false);
+        if (latitude == null || longitude == null || name == "") {
+            addToast("Please Enter all Location Information", "error");
+        } else if (!(latitude < 90 && latitude > -90)) {
+            addToast("Latitude must be in the range of -90 - 90", "error");
+        } else if (!(longitude < 180 && longitude > -180)) {
+            addToast("Longitude must be in the range of -180 - 180", "error");
+        } else {
+            for (const location of locations) {
+                if (
+                    location.meanLongitude == longitude &&
+                    location.meanLatitude == latitude
+                ) {
+                    setisLocationDialogOpen(false);
 
-                addToast(
-                    "Cannot create location with same longitude and lattitude as existing location.",
-                    "error"
-                );
-                return;
+                    addToast(
+                        "Cannot create location with same longitude and lattitude as existing location.",
+                        "error"
+                    );
+                    return;
+                }
             }
+            router.post(route("location.store"), {
+                name: name,
+                latitude: latitude,
+                longitude: longitude,
+            });
+            addToast("New Location Created", "success");
+            router.get(route("users.index"));
         }
-        router.post(route("location.store"), {
-            name: name,
-            latitude: latitude,
-            longitude: longitude,
-        });
         setisLocationDialogOpen(false);
     };
 
@@ -234,7 +244,7 @@ export default function IndexUsers({
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="Enter your specialization"
+                                    placeholder="Enter Location Name"
                                 />
                             </div>
                         </div>
