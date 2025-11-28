@@ -141,8 +141,15 @@ export default function CreateObservation({
         } else if (form.scientificName == "") {
             addToast("Please select a species", "error");
         } else {
-        router.post(
-            route("observation.store", form),
+            for(const id of form.projectIds) {
+                const pres = projects.some(p => p.projectID == id);
+
+                if (!(pres)) {
+                    addToast("Invalid ID","error");
+                    return;
+                }
+            }
+        router.post(route("observation.store", form),
             {},
             {
                 onSuccess: addToast(

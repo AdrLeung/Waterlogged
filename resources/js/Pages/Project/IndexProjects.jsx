@@ -46,43 +46,46 @@ export default function IndexProjects({ isProfessional, projects }) {
 
     return (
         <AppLayout>
-            <div className="p-4 space-y-6">
-                <div className="space-y-4">
-                    <div className="flex gap-4">
+            <div className="flex items-start justify-center min-h-screen p-5">
+                <div className="justify-center max-w-full">
+                    <div className="space-x-3">
                         <input
                             placeholder="Name"
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            className="rounded-xl"
                         />
                         <input
                             placeholder="Min species"
                             type="number"
                             value={species}
                             onChange={(e) => setSpecies(e.target.value)}
+                            className="rounded-xl"
                         />
                         <input
                             placeholder="Min observations"
                             type="number"
                             value={observations}
                             onChange={(e) => setObservations(e.target.value)}
+                            className="rounded-xl"
                         />
                         <input
                             placeholder="Min contributors"
                             type="number"
                             value={contributors}
                             onChange={(e) => setContributors(e.target.value)}
+                            className="rounded-xl"
                         />
+                        </div>
 
+                        <div className="flex justify-center gap-3 p-3">
                         <Button onClick={handleSubmit}>Submit</Button>
-                    </div>
-                </div>
 
-                <div className="px-1 space-x-3">
                     {isProfessional && <CreateProjectDialog />}
                     {auth.user && (
                         <Button
-                            className="mt-4 mb-4"
+                            className=""
                             onClick={() =>
                                 router.get(route("observation.create"))
                             }
@@ -90,11 +93,12 @@ export default function IndexProjects({ isProfessional, projects }) {
                             Create Observation
                         </Button>
                     )}
-                </div>
-
+                        </div>
+                <div className="flex-col gap-4 p-8 space-y-2 overflow-y-auto bg-white border rounded-lg">
+                    <h1 className="pb-3 text-3xl font-extrabold text-center">Projects</h1>
                 {Object.values(projects).map((project) => {
                     return (
-                        <Card key={project.id} className="w-1/3 mb-4 ml-4">
+                        <Card key={project.id} className="">
                             <CardTitle className="pt-4 pl-4">
                                 <p>{project.projectName}</p>
                             </CardTitle>
@@ -155,7 +159,9 @@ export default function IndexProjects({ isProfessional, projects }) {
                         </Card>
                     );
                 })}
-            </div>
+                </div>
+                </div>
+                </div>
         </AppLayout>
     );
 }
