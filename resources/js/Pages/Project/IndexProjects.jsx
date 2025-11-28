@@ -80,19 +80,9 @@ export default function IndexProjects({ isProfessional, projects }) {
                         </div>
 
                         <div className="flex justify-center gap-3 p-3">
-                        <Button onClick={handleSubmit}>Submit</Button>
+                        <Button onClick={handleSubmit}>Filter</Button>
 
                     {isProfessional && <CreateProjectDialog />}
-                    {auth.user && (
-                        <Button
-                            className=""
-                            onClick={() =>
-                                router.get(route("observation.create"))
-                            }
-                        >
-                            Create Observation
-                        </Button>
-                    )}
                         </div>
                 <div className="flex-col gap-4 p-8 space-y-2 overflow-y-auto bg-white border rounded-lg">
                     <h1 className="pb-3 text-3xl font-extrabold text-center">Projects</h1>
