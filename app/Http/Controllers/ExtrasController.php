@@ -50,7 +50,7 @@ class ExtrasController extends Controller
             FROM user u
             JOIN observation o ON o.email = u.email
             GROUP BY u.email
-            HAVING COUNT(DISTINCT o.scientificName) >= 2
+            HAVING COUNT(DISTINCT o.scientificName) >= 5
             '
         );
 

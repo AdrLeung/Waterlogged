@@ -39,7 +39,7 @@ export default function ExtrasDashboard({ projects, superUsers, greatUsers }) {
 
                 <div className="w-full max-w-2xl p-8 space-y-4 bg-white border rounded-lg">
                     <h1 className="text-2xl font-bold">
-                        Observed 2 or more species
+                        Observed 5 or more species
                     </h1>
                     {greatUsers.map((user) => (
                         <div

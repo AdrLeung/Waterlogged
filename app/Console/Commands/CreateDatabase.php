@@ -316,7 +316,11 @@ class CreateDatabase extends Command
             ('49.245120', '-125.257950', '2025-10-17', 6, 'Multiple young kelp fronds sighted in kelp forest region.', '49.245173', '-125.257978', 'Macrocystis pyrifera', 'gavinKrebbers@gmail.com', 'raoulResearch@gmail.com', '2025-10-18'),
             ('49.405950', '-123.469350', '2025-10-02', 5, 'Several kelp plants found on rocks during low tide.', '49.405967', '-123.469368', 'Macrocystis pyrifera', 'janeDoe@gmail.com', 'rowanResearch@gmail.com', '2025-10-03'),
             ('49.451930', '-123.326760', '2025-10-04', 3, 'Kelp observed with signs of stress or damage.', '49.451951', '-123.326787', 'Macrocystis pyrifera', 'johnSmith@gmail.com', 'robertResearch@gmail.com', '2025-10-05'),
-            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Macrocystis pyrifera', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07');
+            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Macrocystis pyrifera', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07'),
+            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Ulva intestinalis', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07'),
+            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Ulva lactuca', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07'),
+            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Orcinus orca', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07'),
+            ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Enteroctopus dofleini', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07');
 
             INSERT INTO project_observation (projectID, observationID)
             VALUES (5, 1),(5, 2),(5, 3),(5, 4),(5, 5),(1, 6),(1, 7),(1, 8),(3, 9),(3, 10),(3, 11);
