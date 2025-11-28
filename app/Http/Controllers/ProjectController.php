@@ -56,7 +56,7 @@ class ProjectController extends Controller
                     HAVING COUNT(DISTINCT o.scientificName) >= ?
                 )
         ',
-            ['%'.$name.'%', $contributors, $observations, $species]
+            ['%' . $name . '%', $contributors, $observations, $species]
         );
 
         $projectObservationCount = DB::select(
@@ -94,7 +94,7 @@ class ProjectController extends Controller
                 )
             GROUP BY p.projectID
         ',
-            ['%'.$name.'%', $contributors, $observations, $species]
+            ['%' . $name . '%', $contributors, $observations, $species]
 
         );
         $projects = [];

@@ -151,24 +151,22 @@ class ObservationController extends Controller
         $wanted_feilds[] = "observationID";
 
         $need_location_name = in_array("meanLongitude", $wanted_feilds);
-
+        foreach ($wanted_feilds as &$feild) {
+            $feild = "o." . $feild;
+        }
         if ($need_location_name) {
 
-            foreach ($wanted_feilds as &$feild) {
-                $feild = "o." . $feild;
-            }
-            $fieldsString = implode(", ", $wanted_feilds);
 
-            $observations = DB::select(
-                "SELECT $fieldsString, l.name
-                    FROM observation o
-                    JOIN location l ON l.meanLatitude = o.meanLatitude AND l.meanLongitude = o.meanLongitude"
-            );
-        } else {
-            $fieldsString = implode(", ", $wanted_feilds);
-
-            $observations = DB::select("SELECT $fieldsString FROM observation");
+            $wanted_feilds[] = "l.name";
         }
+
+        $fieldsString = implode(", ", $wanted_feilds);
+
+        $observations = DB::select(
+            "SELECT $fieldsString
+                    FROM observation o
+                    LEFT JOIN location l ON l.meanLatitude = o.meanLatitude AND l.meanLongitude = o.meanLongitude"
+        );
 
         return Inertia::render("Observation/IndexObservations", [
             "results" => $observations
