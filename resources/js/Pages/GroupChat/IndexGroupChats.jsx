@@ -49,7 +49,7 @@ export default function IndexGroupChats({
                 <div className="w-full max-w-2xl space-y-10">
                     <CreateGroupChatDialog />
 
-                    <div className="gap-4 p-8 space-y-2 overflow-y-auto bg-white border rounded-lg max-h-[400px]">
+                    <div className="max-h-full gap-4 p-8 space-y-2 overflow-y-auto bg-white border rounded-lg">
                         <h1 className="text-2xl font-semibold">Your Groups</h1>
                         {groupsIn.map((group, index) => (
                             <div
@@ -84,7 +84,7 @@ export default function IndexGroupChats({
                         ))}
                     </div>
 
-                    <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg max-h-[400px] overflow-y-auto">
+                    <div className="max-h-full gap-4 p-8 space-y-2 overflow-y-auto bg-white border rounded-lg">
                         <h1 className="text-2xl font-semibold">
                             {" "}
                             Join a group{" "}

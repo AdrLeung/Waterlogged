@@ -57,10 +57,11 @@ export default function IndexObservations({ results, species }) {
             <div className="flex items-start justify-center min-h-screen p-6">
                 <div className="w-full max-w-2xl space-y-10">
                     <div className="gap-4 p-8 space-y-2 bg-white border rounded-lg">
+                        <h1 className="pb-3 text-3xl font-extrabold text-center">Observations</h1>
                         <form onSubmit={handleProjectionSubmit}>
                             <div className="p-3 space-y-3 border rounded-lg">
                                 <h2 className="text-lg font-bold">
-                                    Projection Fields:
+                                    What do you Wanna Filter for?
                                 </h2>
 
                                 <div className="flex flex-wrap gap-4">
@@ -95,7 +96,7 @@ export default function IndexObservations({ results, species }) {
                                     className="flex flex-col p-3 space-y-1 border rounded-lg"
                                 >
                                     {observation.scientificName && (
-                                        <p>
+                                        <p className="text-xl">
                                             <span className="font-bold">
                                                 Scientific Name:{" "}
                                                 {observation.scientificName}

@@ -27,7 +27,7 @@ export default function Welcome({ isProfessional }) {
                         <Button
                             onClick={() => router.get(route("project.index"))}
                         >
-                            View Projects
+                            View all Projects
                         </Button>
                         <Button
                             onClick={() =>
