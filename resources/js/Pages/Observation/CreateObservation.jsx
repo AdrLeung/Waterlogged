@@ -143,7 +143,6 @@ export default function CreateObservation({
         } else {
             for(const id of form.projectIds) {
                 const pres = projects.some(p => p.projectID == id);
-
                 if (!(pres)) {
                     addToast("Invalid ID","error");
                     return;
