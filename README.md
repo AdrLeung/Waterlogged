@@ -1,10 +1,9 @@
-## Team 93
-### Adrian, Gavin, Simon
 ## Waterlogged: A Citizen Science Application
+### Adrian, Gavin, Simon
 <img src="public\images\waterlogged.png" alt="logo" width=300>
 
 
-Our goal for this project is to create a citizen science application, specifically focusing on tracking and documenting the distribution of marine flora and fauna species. Not only will the application assist in scientific research, such as ecological surveys and documentation of rare species, but it will also provide an outlet for hobbyists to explore, record and collaborate about the dynamic aquatic landscape.
+Our goal for this project was to create a citizen science application, specifically focusing on tracking and documenting the distribution of marine flora and fauna species. Not only will the application assist in scientific research, such as ecological surveys and documentation of rare species, but it will also provide an outlet for hobbyists to explore, record and collaborate about the dynamic aquatic landscape.
 
 To run our application you must have node, php, composer and laravel installed.
 
