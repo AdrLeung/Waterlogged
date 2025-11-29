@@ -323,7 +323,7 @@ class CreateDatabase extends Command
             ('49.330520', '-124.290520', '2025-10-06', 7, 'Healthy kelp population noted around reef area.', '49.330532', '-124.290541', 'Enteroctopus dofleini', 'gavinKrebbers@gmail.com', 'Simon@gmail.com', '2025-10-07');
 
             INSERT INTO project_observation (projectID, observationID)
-            VALUES (5, 1),(5, 2),(5, 3),(5, 4),(5, 5),(1, 6),(1, 7),(1, 8),(3, 9),(3, 10),(3, 11);
+            VALUES (5, 1),(5, 2),(5, 3),(5, 4),(5, 5),(1, 6),(1, 7),(1, 8),(3, 9),(3, 10),(3, 2), (1, 2), (2, 2), (4, 2);
 
             INSERT INTO media (observationID, mediaID, URL, mediaType)
             VALUES
